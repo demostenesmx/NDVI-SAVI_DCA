@@ -232,7 +232,7 @@ var palette = ['F6BA10','D4F610', 'B3F455','6AE817', '469D0D'];
 //===========================================10.4.Composición bianual multiteporal con valores del índice NDVI por un perio de 10 años.============/
 var NDVImultitemporal = (NDVI1.addBands(NDVI2).addBands(NDVI3)
                           .addBands (NDVI4).addBands (NDVI5));
-var band01 = NDVImultitemporal.select('NDVI')//.set('system:time_start',L7 .get('system:time_start')).rename ('SAVI');
+var band01 = NDVImultitemporal.select('NDVI')
 //============================================10.5.Composición bisnual multitemporal con el índice SAVI por un periodo de 10 años.=================/
 
 var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
