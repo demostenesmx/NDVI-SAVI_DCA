@@ -24,7 +24,7 @@ var zonas = ee.FeatureCollection (ZN.merge(ZS));
 ////=======================================3.Código de la librería oficial de GEE para el enmascaramiento de nubes y sombras.=======================/
 //------------------------------------------------------------------------------------------------------------------------------------------------/
 //Fuente de estructura de codigo de enmascaameinto de nube para este catalago:
-//https://gis.stackexchange.com/questions/407458/google-earth-engine-understanding-landsat-7-collection-2-qa-pixel-bitwiseand
+//https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR?hl=en
 //----------------------------------------------------------------------------------------------------------------------------------------------/
 
 //Se crea la función cloudMaskL457 para enmascarar nubes, sombras y nieve, mediante los valores de pixel de la banda QA_PIXEL
@@ -85,16 +85,21 @@ var colFilter = ee.Filter.and(
 //https://www.usgs.gov/faqs/how-do-landsat-collection-2-level-2-products-compare-products-collection-1?qt-news_science_products=0#qt-news_science_products
 
 var L7 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") //Del catalago de datos de GEE
-    .filter(colFilter).map(computeIVM).map(cloudMaskC2L7);//.map(renameETM)
+    .filter(colFilter).map(computeIVM).map(cloudMaskC2L7).map(scale01);//.map(renameETM)
 
-//================================================7. Creando función para utilizar la escala adecuada a las bandas de reflectancia superficial (SR),para obtener valores optimos.==================================/
-function scale(image) {
-  var opticalBands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
-  return image.addBands(opticalBands, null, true);
+//================================================7. Creando función para escala adecuada, para obtener valores optimos.==================================/
+//===========================7.1. Para toda la temporalidad.=============================================================================/
+function scale01(image) {
+  var opticalbands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
+  var medianbands = image.reduce(ee.Reducer.median());
+  return image.addBands(opticalbands, null, true)
+  .addBands(medianbands);
 }
-
-L7 = L7.map(scale);
-
+//===========================7.2.Para datos bianuales.===================================================================================/
+ function scale02(image) {
+  var opticalbands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
+    return image.addBands(opticalbands, null, true);
+}
 //============================================================= 8.Fusionando colecciones.================================================/
 
 //===================================8.1.Fusión de colecciones SR Landsat en una.================================/
@@ -116,7 +121,7 @@ var ivm = ndvi.merge(savi);
 var T1 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2011-01-01' ,'2012-12-31')  
   .map (cloudMaskC2L7)
-  .map(scale)
+  .map(scale02)
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
@@ -124,15 +129,15 @@ var T1 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
 var T2 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2013-01-01' ,'2014-12-31')  
   .map (cloudMaskC2L7)
-  .map(scale)
-  .reduce(ee.Reducer.median())
+  .map(scale02)
+ .reduce(ee.Reducer.median())
   .clip(zonas);
 
 //3.===========================================================/
 var T3 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2015-01-01' ,'2016-12-31')  
   .map (cloudMaskC2L7)
-  .map(scale)
+  .map(scale02)
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
@@ -140,7 +145,7 @@ var T3 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
 var T4 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2017-01-01' ,'2018-12-31') 
   .map (cloudMaskC2L7)
-  .map(scale)
+  .map(scale02)
  .reduce(ee.Reducer.median())
  .clip(zonas);
 
@@ -148,7 +153,7 @@ var T4 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
 var T5 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2019-01-01' ,'2020-12-31') 
   .map (cloudMaskC2L7)
-  .map(scale)
+  .map(scale02)
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
@@ -157,7 +162,7 @@ var T5 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
 var T6 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2020-01-01' ,'2020-12-31') 
   .map (cloudMaskC2L7)
-  .map(scale)
+  .map(scale02)
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
@@ -232,7 +237,8 @@ var palette = ['F6BA10','D4F610', 'B3F455','6AE817', '469D0D'];
 //===========================================10.4.Composición bianual multiteporal con valores del índice NDVI por un perio de 10 años.============/
 var NDVImultitemporal = (NDVI1.addBands(NDVI2).addBands(NDVI3)
                           .addBands (NDVI4).addBands (NDVI5));
-var band01 = NDVImultitemporal.select('NDVI')
+                          
+var band01 = NDVImultitemporal.select('NDVI');
 //============================================10.5.Composición bisnual multitemporal con el índice SAVI por un periodo de 10 años.=================/
 
 var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
@@ -422,7 +428,7 @@ print(histograma04);
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
   min: 0.0,
-  max: 0.3,
+  max: 0.2,
 }; 
 
 //======================================================14. Exportar resultados ==========================/
