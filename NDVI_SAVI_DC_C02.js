@@ -45,13 +45,13 @@ var cloudconfidence = (1 << 9)
   return image.updateMask(mask.not()).updateMask(mask2);
 };
 
-//Para renombrar bandas de interés de la colección L7, y ser empleadas.
-//function renameETM(image) {
-// return image.select(
-//		['SR_B1', 'SR_B2', 'SR_B3', 'SR_B4', 'SR_B5', 'SR_B7','QA_PIXEL'],
-//		['blue','green','red','nir','swir1','swir2','QA_PIXEL']
-//  );
-//}
+/*Para renombrar bandas de interés de la colección L7, y ser empleadas por su nombre..
+function renameETM(image) {
+return image.select(
+		['SR_B1', 'SR_B2', 'SR_B3', 'SR_B4', 'SR_B5', 'SR_B7','QA_PIXEL'],
+		['blue','green','red','nir','swir1','swir2','QA_PIXEL']
+  );
+}*/
 
 //====================================4.Función para calcular NDVI y SAVI para toda la temporalidad de estudio (2011-2020).============================/
 
@@ -63,7 +63,6 @@ var computeIVM = function(image){
     {   'L':0.5,  // L igual a 1 corresponde a áreas con poca vegetación, 
                   // L igual a 0.5 para áreas con vegetación intermedias, 
                   // L igual a 0.25 para áreas con vegetación densa;
-                  //para el presnete estudio se empleo un factor de 0.15.
       'SR_B4':SR_B4, 
       'SR_B3':SR_B3});
   return image.addBands([
@@ -423,7 +422,7 @@ var histograma04 = ui.Chart.image.histogram(band02, ZS, 30)
  // Mostrar histograma en la consola.
 print(histograma04);
 
-//======================================================13. VISUALIZAR EN EL MAPA ========================/
+//======================================================13. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
 
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
@@ -699,8 +698,8 @@ var chart06 =
 //=====================16.2.Imprimir gráfico en la consola.===============================/      
 print(chart06);
 
-//===== ==========================17. Añadir al mapa la categorízación de los valores promedio obtenidos del NDVI por año,
-//=================================adaptado para este estudio según Alencar et al (2018).===================================================================/
+//===== ==========================17. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
+//=================================adaptado para este estudio.===================================================================/
 
 Map.addLayer ( NDVI_C.clip(ee.FeatureCollection(zonas)),{max: 5, min: 1}, 'Categorizado_NDVI_Zonas', true);
 Map.addLayer ( SAVI_C.clip(ee.FeatureCollection(zonas)),{max: 5, min: 1}, 'Categorizado_SAVI_Zonas', true);
@@ -714,7 +713,7 @@ Map.addLayer (NDVI1,{max: 1.0, min: 0, palette: palette}, 'NDVI_2011-2012_ZE');
 Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
 
 
-//====================================18.Añadir al mapa el promedio de la mediana de la imagen y perimetro del área de estudio.==========================/
+//====================================18.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
 
 Map.addLayer( L7.median().clip(Sian_Pol), rgb_vis, 'RGB (mediana)');
 
@@ -724,4 +723,5 @@ Map.addLayer (Sian_Per,{color:'red'}, 'RBSK');
 
 //======================================19.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
+
 
