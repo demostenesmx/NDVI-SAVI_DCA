@@ -422,19 +422,130 @@ var histograma04 = ui.Chart.image.histogram(band02, ZS, 30)
  // Mostrar histograma en la consola.
 print(histograma04);
 
-//======================================================13. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
+//==================================13.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur individual.===============================/
 
-var rgb_vis = {
-  bands: ['SR_B3', 'SR_B2', 'SR_B1'],
-  min: 0.0,
-  max: 0.2,
-}; 
+//1.===========================================================================================/
+var chart01 = ui.Chart.image.series({
+  imageCollection:ndvi.select('NDVI'),
+  region: ZN,
+ reducer: ee.Reducer.median(),
+  scale: 30
+}).setChartType('LineChart').setOptions({title: 'Serie de tiempo NDVI-ZN-10 años',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores_NDVI',
+            titleTextStyle: {italic: false, bold: true}
+          }});
+  
+ //2.=============================================================================================/
+ var chart02 = ui.Chart.image.series({
+  imageCollection:  ndvi.select('NDVI'),
+  region: ZS,
+  reducer: ee.Reducer.median(),
+  scale: 30
+}).setChartType('LineChart').setOptions({title: 'Serie de tiempo NDVI-ZS-10 años',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores_NDVI',
+            titleTextStyle: {italic: false, bold: true}
+          }});
+ //3.================================================================================================/
+ var chart03 = ui.Chart.image.series({
+  imageCollection:  savi.select('SAVI'),
+  region: ZN,
+  reducer: ee.Reducer.median(),
+  scale: 30
+}).setChartType('LineChart').setOptions({title: 'Serie de tiempo SAVI-ZN-10 años',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores_SAVI',
+            titleTextStyle: {italic: false, bold: true}
+          }});
+//4.==================================================================================================/
+var chart04 = ui.Chart.image.series({
+  imageCollection:  savi.select('SAVI'),
+  region: ZS,
+  reducer: ee.Reducer.median(),
+  scale: 30
+}).setChartType('LineChart').setChartType('LineChart').setOptions({       title: 'Serie de tiempo SAVI-ZS-10 años',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores_SAVI',
+            titleTextStyle: {italic: false, bold: true}
+                                }});
 
-//======================================================14. Exportar resultados ==========================/
+//===================================13.1.Imprime el gráfico en la consola.=======================================================================/
 
-// =============================14.1. NDVI Total a Google Drive.================================================/
+print(chart01);
+print(chart02);
+print(chart03);
+print(chart04);
 
-//===========================14.1.2. Resultados NDVI Temporalidad total (2011-2020).============================/
+//====================================14.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur, 10 años comparativo.==============================/
+
+//1.====================================ZN.======================================================/
+var chart05 =
+    ui.Chart.image
+       .series({
+         imageCollection: ivm,
+         region: ZN,
+         reducer: ee.Reducer.median(),
+          scale: 30,
+          xProperty: 'system:time_start'
+        })
+        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
+        .setChartType('LineChart')
+        .setOptions({
+          title: 'Índices de Vegetación Multiespectral ZN',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores',
+            titleTextStyle: {italic: false, bold: true}
+          },
+     series: {
+    0: {pointSize: 4, color: 'e37d05'},//lineWidth: 3
+    1: {pointSize: 4, color: '1d6b99'}  //lineDashStyle: [4, 4]
+  },
+   curveType: 'function',
+    chartArea: {backgroundColor: 'EBEBEB'}
+        
+        });
+//==========================14.1.Imprimir gráfico en la consola=============================/     
+      print(chart05);
+//2.=================================ZS.==========================================================/
+var chart06 =
+    ui.Chart.image
+       .series({
+         imageCollection: ivm,
+         region: ZS,
+         reducer: ee.Reducer.median(),
+          scale: 30,
+          xProperty: 'system:time_start'
+        })
+        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
+        .setOptions({
+          title: 'Índices de Vegetación Multiespectral ZS',
+          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Valores',
+            titleTextStyle: {italic: false, bold: true}
+          },
+    series: {
+    0: {pointSize: 4, color: 'e37d05'},
+    1: {pointSize: 4,  color: '1d6b99'}//, lineWidth: 3
+  },
+  curveType: 'function',
+    chartArea: {backgroundColor: 'EBEBEB'}
+                  
+        });
+//=====================14.2.Imprimir gráfico en la consola.===============================/      
+print(chart06);
+
+//======================================================15. Exportar resultados ==========================/
+
+// =============================15.1. NDVI Total a Google Drive.================================================/
+
+//===========================15.1.2. Resultados NDVI Temporalidad total (2011-2020).============================/
 Export.image.toDrive({image: NDVI_C,
   description: 'Drive_Total_NDVI_C_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -444,7 +555,7 @@ Export.image.toDrive({image: NDVI_C,
   maxPixels: 1e13});
   
 //-------------------------------------------------------------------------------------------------------------------------------------/  
-//===========================14.1.3. Datos Bianuales de NDVI en las zonas de estudio (ZN-ZS)======================/
+//===========================15.1.3. Datos Bianuales de NDVI en las zonas de estudio (ZN-ZS)======================/
 
 //1. ==========================================2011-2012.===========================================/
 Export.image.toDrive({image: NDVI1,
@@ -497,7 +608,7 @@ Export.image.toDrive({image: NDVI5,
   
 //--------------------------------------------------------------------------------------------------------/
 
-//================================14.1.4. NDVI mensual al Assets.===============================/
+//================================15.1.4. NDVI mensual al Assets.===============================/
 Export.image.toAsset({image: ndvi,
   description: 'ASSET_Mensual_NDVI_'+StartYear+'_to_'+EndYear,
   assetId: 'Mensual_NDVI_'+StartYear+'_to_'+EndYear,
@@ -506,9 +617,9 @@ Export.image.toAsset({image: ndvi,
     maxPixels: 1e13});
 //************************************************************************************************/
 
-//=================================14.2. SAVI Total a Google Drive.=============================/
+//=================================15.2. SAVI Total a Google Drive.=============================/
 
-//=================================14.2.1. Resultados SAVI Temporalidad total (2011-2020).===================================/
+//=================================15.2.1. Resultados SAVI Temporalidad total (2011-2020).===================================/
 
 Export.image.toDrive({image: SAVI_C,
   description: 'Drive_Total_SAVI_C_'+StartYear+'_to_'+EndYear,
@@ -518,7 +629,7 @@ Export.image.toDrive({image: SAVI_C,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
- //================================14.2.2. Datos Bianuales de SAVI en las zonas de estudio (ZN-ZS)=============================/
+ //================================15.2.2. Datos Bianuales de SAVI en las zonas de estudio (ZN-ZS)=============================/
 
 //1.================================2011-2012 ===============================/  
   Export.image.toDrive({image: SAVI1,
@@ -571,7 +682,7 @@ Export.image.toDrive({image: SAVI5,
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/
 
-//6.==================== ===========14.2.3. SAVI Temporalidad Total a Assets.=============================================================/
+//6.==================== ===========15.2.3. SAVI Temporalidad Total a Assets.=============================================================/
 Export.image.toAsset({image: savi,
   description: 'ASSET_Mensual_SAVI'+StartYear+'_to_'+EndYear,
   assetId: 'Mensual_SAVI_'+StartYear+'_to_'+EndYear,
@@ -579,124 +690,13 @@ Export.image.toAsset({image: savi,
   region: ee.Geometry(Map.getBounds(true)),
     maxPixels: 1e13});
 
-//==================================15.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur individual.===============================/
+//======================================================16. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
 
-//1.===========================================================================================/
-var chart01 = ui.Chart.image.series({
-  imageCollection:ndvi.select('NDVI'),
-  region: ZN,
- reducer: ee.Reducer.median(),
-  scale: 30
-}).setChartType('LineChart').setOptions({title: 'Serie de tiempo NDVI-ZN-10 años',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores_NDVI',
-            titleTextStyle: {italic: false, bold: true}
-          }});
-  
- //2.=============================================================================================/
- var chart02 = ui.Chart.image.series({
-  imageCollection:  ndvi.select('NDVI'),
-  region: ZS,
-  reducer: ee.Reducer.median(),
-  scale: 30
-}).setChartType('LineChart').setOptions({title: 'Serie de tiempo NDVI-ZS-10 años',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores_NDVI',
-            titleTextStyle: {italic: false, bold: true}
-          }});
- //3.================================================================================================/
- var chart03 = ui.Chart.image.series({
-  imageCollection:  savi.select('SAVI'),
-  region: ZN,
-  reducer: ee.Reducer.median(),
-  scale: 30
-}).setChartType('LineChart').setOptions({title: 'Serie de tiempo SAVI-ZN-10 años',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores_SAVI',
-            titleTextStyle: {italic: false, bold: true}
-          }});
-//4.==================================================================================================/
-var chart04 = ui.Chart.image.series({
-  imageCollection:  savi.select('SAVI'),
-  region: ZS,
-  reducer: ee.Reducer.median(),
-  scale: 30
-}).setChartType('LineChart').setChartType('LineChart').setOptions({       title: 'Serie de tiempo SAVI-ZS-10 años',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores_SAVI',
-            titleTextStyle: {italic: false, bold: true}
-                                }});
-
-//===================================15.1.Imprime el gráfico en la consola.=======================================================================/
-
-print(chart01);
-print(chart02);
-print(chart03);
-print(chart04);
-
-//====================================16.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur, 10 años comparativo.==============================/
-
-//1.==========================================================================================/
-var chart05 =
-    ui.Chart.image
-       .series({
-         imageCollection: ivm,
-         region: ZN,
-         reducer: ee.Reducer.median(),
-          scale: 30,
-          xProperty: 'system:time_start'
-        })
-        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
-        .setChartType('LineChart')
-        .setOptions({
-          title: 'Índices de Vegetación Multiespectral ZN',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores',
-            titleTextStyle: {italic: false, bold: true}
-          },
-     series: {
-    0: {pointSize: 4, color: 'e37d05'},//lineWidth: 3
-    1: {pointSize: 4, color: '1d6b99'}  //lineDashStyle: [4, 4]
-  },
-   curveType: 'function',
-    chartArea: {backgroundColor: 'EBEBEB'}
-        
-        });
-//==========================16.1.Imprimir gráfico en la consola=============================/     
-      print(chart05);
-//2.===========================================================================================/
-var chart06 =
-    ui.Chart.image
-       .series({
-         imageCollection: ivm,
-         region: ZS,
-         reducer: ee.Reducer.median(),
-          scale: 30,
-          xProperty: 'system:time_start'
-        })
-        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
-        .setOptions({
-          title: 'Índices de Vegetación Multiespectral ZS',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores',
-            titleTextStyle: {italic: false, bold: true}
-          },
-    series: {
-    0: {pointSize: 4, color: 'e37d05'},
-    1: {pointSize: 4,  color: '1d6b99'}//, lineWidth: 3
-  },
-  curveType: 'function',
-    chartArea: {backgroundColor: 'EBEBEB'}
-                  
-        });
-//=====================16.2.Imprimir gráfico en la consola.===============================/      
-print(chart06);
+var rgb_vis = {
+  bands: ['SR_B3', 'SR_B2', 'SR_B1'],
+  min: 0.0,
+  max: 0.2,
+}; 
 
 //===== ==========================17. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
 //=================================adaptado para este estudio.===================================================================/
@@ -712,7 +712,6 @@ Map.addLayer (SAVImultitemporal.clip(ee.FeatureCollection(zonas)), {max: 1, min:
 Map.addLayer (NDVI1,{max: 1.0, min: 0, palette: palette}, 'NDVI_2011-2012_ZE');
 Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
 
-
 //====================================18.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
 
 Map.addLayer( L7.median().clip(Sian_Pol), rgb_vis, 'RGB (mediana)');
@@ -723,5 +722,4 @@ Map.addLayer (Sian_Per,{color:'red'}, 'RBSK');
 
 //======================================19.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
-
 
