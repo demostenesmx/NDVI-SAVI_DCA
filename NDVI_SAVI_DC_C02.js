@@ -161,8 +161,8 @@ var savim =  ee.ImageCollection.fromImages(  // Devuelve la Imagen para Colecci�
           ); /// Colecciones apiladas
 
 //====================================8.3. Uniendo indices a una imagen.==========================================/
-
-var ivm = ndvi.merge(savi);
+var ivmmes = ndvim.merge(savim);
+//var ivm = ndvi.merge(savi);
 
 //=====================================9.Periodos Bianuales para una mejor representación y visualización de los cambios temporales en la vegetación en DC. =====================================================/
 
@@ -545,7 +545,7 @@ print(chart04);
 var chart05 =
     ui.Chart.image
        .series({
-         imageCollection: ivm,
+         imageCollection: ivmmes,
          region: ZN,
          reducer: ee.Reducer.median(),
           scale: 30,
@@ -574,7 +574,7 @@ var chart05 =
 var chart06 =
     ui.Chart.image
        .series({
-         imageCollection: ivm,
+         imageCollection: ivmmes,
          region: ZS,
          reducer: ee.Reducer.median(),
           scale: 30,
