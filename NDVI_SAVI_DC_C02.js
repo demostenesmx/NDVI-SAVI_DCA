@@ -6,6 +6,16 @@
 
 var StartYear = 2011, EndYear = 2020;
 
+//=====================================1.3. Lista de meses.
+var months = ee.List.sequence(1,12);
+ 
+//====================================1.4.Estableciendo el inicio y fin del estudio
+var startdate = ee.Date.fromYMD(StartYear,1,1);
+var enddate = ee.Date.fromYMD(EndYear,12,31);
+
+ // ===================================1.5. Lista de años variables 
+var years = ee.List.sequence(StartYear,EndYear);
+
 //======================================2.Cargar Área de estudio, Zona Norte y Sur de la RBSK.====================================================/
 
 var ZN = ee.FeatureCollection ('users/veronica78mere/ZN');
@@ -29,11 +39,11 @@ var zonas = ee.FeatureCollection (ZN.merge(ZS));
 
 //Se crea la función cloudMaskL457 para enmascarar nubes, sombras y nieve, mediante los valores de pixel de la banda QA_PIXEL
 var cloudMaskC2L7 = function(image) {
-  //var dilatedCloud = (1 << 1)
   var cloud = (1 << 3)
-var cloudconfidence = (1 << 9)
+  var cloudconfidence = (1 << 9)
   var cloudShadow = (1 << 4)
-  var qa = image.select('QA_PIXEL');//La banda QA_Pixel, es una banda de evaluación de la calidad de píxeles. Esta puede generar una nueva imagen de banda única.
+  var qa = image.select('QA_PIXEL');//La banda QA_Pixel, es una banda de evaluación de la calidad de píxeles, generada a partir del algoritmo CFMASK para el procesamiento de eliminación de nubes. 
+  //Esta puede generar una nueva imagen de banda única.
 //// La capa de nubes se representa como el tercer lugar, la confianza de la capa de nubes es 8-9 y la sombra de las nubes es el cuarto lugar
 ////// Seleccione los píxeles que tienen nubes y la confianza de las nubes es media y están cubiertos por sombras de nubes.
   var mask = qa.bitwiseAnd(cloud)
@@ -105,10 +115,50 @@ function scale01(image) {
 
 var Landsat_col = L7.sort('system:time_start', true);
 
-//===================================8.2. Seleccionando bandas dentro de la colección.===========================/
+//===================================8.2. Seleccionando bandas dentro de la colección y filtrado para obtener valores===============/
+//=========================================de la mediana de cada mes por año de cada índice.=======================================/
 
+//1.============================================================================================/
 var ndvi = Landsat_col.select('NDVI');
 var savi = Landsat_col.select('SAVI');
+
+//2.============================================NDVI mensual.=================================/
+var ndvim =  ee.ImageCollection.fromImages(  // Devuelve la Imagen para Colección.
+  years.map(function (año) { // Se aplica la funbcion Map (LOOP) a la variable años
+  
+  return months.map(function(mes){ // devuelve la variable meses con la siguiente función :  
+  
+  var pre_month = ndvi.filter(ee.Filter.calendarRange(año, año, 'year'))  //filtro por año,
+           .filter(ee.Filter.calendarRange(mes, mes, 'month')) //  filtro por mes
+           .sum() //Sum- Agrega todos los valores de colección del mes.
+           .clip(zonas);
+  
+  return pre_month.set('year', año) // Rango de años = Y
+           .set('month', mes) // Rango de mes = m
+           .set('date', ee.Date.fromYMD(año,mes,1)) // Fecha: Es la fecha que viene del año, mes y día 1.
+           .set('system:time_start',ee.Date.fromYMD(año,mes,1)); // Rango de colecciones Time_Start del sistema.
+            }); 
+          }).flatten()
+          ); /// Colecciones apiladas
+
+//3.=============================SAVI mensual.==========================================================================/
+var savim =  ee.ImageCollection.fromImages(  // Devuelve la Imagen para Colección.
+  years.map(function (año) { // Se aplica la funbcion Map (LOOP) a la variable años
+  
+  return months.map(function(mes){ // devuelve la variable meses con la siguiente función:  
+  
+  var pre_month = savi.filter(ee.Filter.calendarRange(año, año, 'year'))  //filtro por año,
+           .filter(ee.Filter.calendarRange(mes, mes, 'month')) //  filtro por mes
+           .sum() //Sum- Agrega todos los valores de colección del mes.
+           .clip(zonas);
+  
+  return pre_month.set('year', año) // Rango de años = Y
+           .set('month', mes) // Rango de mes = m
+           .set('date', ee.Date.fromYMD(año,mes,1)) // Fecha: Es la fecha que viene del año, mes y día 1.
+           .set('system:time_start',ee.Date.fromYMD(año,mes,1)); // Rango de colecciones Time_Start del sistema.
+            }); 
+          }).flatten()
+          ); /// Colecciones apiladas
 
 //====================================8.3. Uniendo indices a una imagen.==========================================/
 
@@ -181,6 +231,9 @@ var NDVI5 = T5.normalizedDifference (['SR_B4_median','SR_B3_median']).set('syste
 //6.====================================================================================================================/
 var NDVI6 = T6.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T6.get('system:time_start')).rename('NDVI');
 
+//7.=================================Detección de cambio bianual en el NDVI para ambas zonas.==================================================/ 
+//var image_diff01 = NDVI1.subtract(NDVI5);
+
 //==========================10.2. Función para estimar el índice SAVI para  en un periodo de 10 años, compilando la periodicidad bianualmente.========================/
 
 //1.==============================================================================/
@@ -222,12 +275,16 @@ var SAVI5 = T5.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L)
     'SR_B3': T1.select ('SR_B3_median')})
  .set('system:time_start', T5.get('system:time_start')).rename ('SAVI');
 
+
 //6.===================================================================================/
 var SAVI6 = T6.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
     'SR_B4': T1.select ('SR_B4_median'),
     'SR_B3': T1.select ('SR_B3_median')})
  .set('system:time_start', T6.get('system:time_start')).rename ('SAVI');
+
+//7.=================================Detección de cambio bianual en el NDVI para ambas zonas.==================================================/ 
+//var image_diff02 = SAVI1.subtract(SAVI5);
 
 //==========================================10.3. Declaracion de paleta de colores.=============/
 
@@ -244,26 +301,27 @@ var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
                             .addBands (SAVI4).addBands (SAVI5));
 
 var band02 = SAVImultitemporal.select('SAVI');
+
 //==============================================11.Categorización de valores  según Alecar et al., (2019), adaptado al área de estudio consideran los valores
 //=================================================obtenidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.===============================/
 
 //==============================================11.1. Categorización valores NDVI.===================================/
 var NDVI_C = NDVImultitemporal 
-          .where(NDVImultitemporal .gt(-6).and(NDVImultitemporal.lte (0)),  1) // agua
+          .where(NDVImultitemporal .gt(-0.61).and(NDVImultitemporal.lte (0)),  1) // agua
           .where(NDVImultitemporal .gt(0).and(NDVImultitemporal.lte (0.25)),  2) //sin vegetación
-          .where(NDVImultitemporal .gt(0.25).and(NDVImultitemporal .lte(0.33)), 3)//Densidad Baja
-          .where(NDVImultitemporal .gt(0.33).and(NDVImultitemporal .lte(0.66)), 4)//Densidad Media
-          .where(NDVImultitemporal .gt(0.66).and(NDVImultitemporal .lte(0.9)),5); //Densidad Alta
+          .where(NDVImultitemporal .gt(0.25).and(NDVImultitemporal .lte(0.35)), 3)//Densidad Baja
+          .where(NDVImultitemporal .gt(0.35).and(NDVImultitemporal .lte(0.65)), 4)//Densidad Media
+          .where(NDVImultitemporal .gt(0.65).and(NDVImultitemporal .lte(0.91)),5); //Densidad Alta
           
 //===============================================11.2. Categorización valores SAVI.====================================/
 
 //1.=======================================================/
 var SAVI_C = SAVImultitemporal
-          .where(SAVImultitemporal .gt(-6).and(SAVImultitemporal.lte (0)),  1) // agua
+          .where(SAVImultitemporal .gt(-0.77).and(SAVImultitemporal.lte (0)),  1) // agua
           .where(SAVImultitemporal .gt(0).and(SAVImultitemporal.lte (0.25)),  2) //sin vegetación
-          .where(SAVImultitemporal .gt(0.25).and(SAVImultitemporal .lte(0.33)), 3)//Densidad Baja
-          .where(SAVImultitemporal .gt(0.33).and(SAVImultitemporal.lte(0.66)), 4)//Densidad Media
-          .where(SAVImultitemporal .gt(0.66).and(SAVImultitemporal.lte(0.9)),5); //Densidad Alta
+          .where(SAVImultitemporal .gt(0.25).and(SAVImultitemporal .lte(0.35)), 3)//Densidad Baja
+          .where(SAVImultitemporal .gt(0.35).and(SAVImultitemporal.lte(0.45)), 4)//Densidad Media
+          .where(SAVImultitemporal .gt(0.45).and(SAVImultitemporal.lte(0.65)),5); //Densidad Alta
           
 //================================================12.Imprimir en consola los valores máximos y mínimos obtendios del NDVI y SAVI por zona (ZN-ZS) en 10 años.=========================/
 
@@ -426,7 +484,7 @@ print(histograma04);
 
 //1.===========================================================================================/
 var chart01 = ui.Chart.image.series({
-  imageCollection:ndvi.select('NDVI'),
+  imageCollection:ndvim.select('NDVI'),
   region: ZN,
  reducer: ee.Reducer.median(),
   scale: 30
@@ -439,7 +497,7 @@ var chart01 = ui.Chart.image.series({
   
  //2.=============================================================================================/
  var chart02 = ui.Chart.image.series({
-  imageCollection:  ndvi.select('NDVI'),
+  imageCollection:  ndvim.select('NDVI'),
   region: ZS,
   reducer: ee.Reducer.median(),
   scale: 30
@@ -451,7 +509,7 @@ var chart01 = ui.Chart.image.series({
           }});
  //3.================================================================================================/
  var chart03 = ui.Chart.image.series({
-  imageCollection:  savi.select('SAVI'),
+  imageCollection:  savim.select('SAVI'),
   region: ZN,
   reducer: ee.Reducer.median(),
   scale: 30
@@ -463,7 +521,7 @@ var chart01 = ui.Chart.image.series({
           }});
 //4.==================================================================================================/
 var chart04 = ui.Chart.image.series({
-  imageCollection:  savi.select('SAVI'),
+  imageCollection:  savim.select('SAVI'),
   region: ZS,
   reducer: ee.Reducer.median(),
   scale: 30
@@ -493,7 +551,7 @@ var chart05 =
           scale: 30,
           xProperty: 'system:time_start'
         })
-        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
+        .setSeriesNames(['NDVI ', 'SAVI'])
         .setChartType('LineChart')
         .setOptions({
           title: 'Índices de Vegetación Multiespectral ZN',
@@ -522,7 +580,7 @@ var chart06 =
           scale: 30,
           xProperty: 'system:time_start'
         })
-        .setSeriesNames(['NDVI_Mensual ', 'SAVI_Mensual'])
+        .setSeriesNames(['NDVI ', 'SAVI'])
         .setOptions({
           title: 'Índices de Vegetación Multiespectral ZS',
           hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
@@ -711,6 +769,10 @@ Map.addLayer (SAVImultitemporal.clip(ee.FeatureCollection(zonas)), {max: 1, min:
 
 Map.addLayer (NDVI1,{max: 1.0, min: 0, palette: palette}, 'NDVI_2011-2012_ZE');
 Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
+
+//=====================================17.2. Añadir al mapa la detección de cambio bianual de los IVM entre T1 y T5 para ambas zonas.=========================/
+//Map.addLayer(image_diff01, palette, 'Detección de cambio NDVI_Zonas');
+//Map.addLayer(image_diff02, palette, 'Detección de cambio SAVI_Zonas');
 
 //====================================18.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
 
