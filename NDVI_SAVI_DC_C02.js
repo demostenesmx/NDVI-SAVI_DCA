@@ -2,11 +2,16 @@
 //=====================en un periodo de 10 años dentro de la Reserva de la Biosfera de Sian Ka´an (RBSK), Quintana Roo, México.====================================/
 //=====================(Elaboración y modificación estructural de codigos por MMZC. Eloy Gayosso Soto).===========================================================/
 
+//Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
+// Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
+
+
 //===================================1.Periodo de estudio de 10 años (2011-2020).================================================================/
 
 var StartYear = 2011, EndYear = 2020;
 
 //=====================================1.3. Lista de meses.
+
 var months = ee.List.sequence(1,12);
  
 //====================================1.4.Estableciendo el inicio y fin del estudio
@@ -53,7 +58,7 @@ var cloudMaskC2L7 = function(image) {
   var mask2 = image.mask().reduce(ee.Reducer.min());
   // Establezca los píxeles de la nube relacionados con la detección en 0 y la máscara retiene los datos cuya posición no es 0.
   return image.updateMask(mask.not()).updateMask(mask2);
-};
+}; //96 % de confiabilidad en los datos
 
 /*Para renombrar bandas de interés de la colección L7, y ser empleadas por su nombre..
 function renameETM(image) {
@@ -92,6 +97,10 @@ var colFilter = ee.Filter.and(
 //https://www.usgs.gov/faqs/why-are-fill-values-and-scaling-factors-landsat-collection-2-level-2-products-different-those?qt-news_science_products=0#qt-news_science_products
 //https://www.usgs.gov/core-science-systems/nli/landsat/landsat-collection-2-level-2-science-products
 //https://www.usgs.gov/faqs/how-do-landsat-collection-2-level-2-products-compare-products-collection-1?qt-news_science_products=0#qt-news_science_products
+// https://developers.google.com/earth-engine/tutorials/tutorial_api_05 (la mediana como reductor temporal en imagenes).
+
+//Dato importante: Cuando se reduce una colección de imágenes utilizando el reductor de mediana, el valor compuesto es la mediana en cada banda, a lo largo del tiempo.
+//Aunado a lo anterior, en la ejecución del presente código se hace uso de valores de la mediana.
 
 var L7 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") //Del catalago de datos de GEE
     .filter(colFilter).map(computeIVM).map(cloudMaskC2L7).map(scale01);//.map(renameETM)
@@ -779,8 +788,8 @@ Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
 Map.addLayer( L7.median().clip(Sian_Pol), rgb_vis, 'RGB (mediana)');
 
 Map.addLayer (Sian_Per,{color:'red'}, 'RBSK');
-//Map.addLayer (ZN, {color:'blue'}, 'ZN');
-//Map.addLayer (ZS, {color:'cyan'}, 'ZS');
+Map.addLayer (ZN, {color:'blue'}, 'ZN');
+Map.addLayer (ZS, {color:'cyan'}, 'ZS');
 
 //======================================19.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
