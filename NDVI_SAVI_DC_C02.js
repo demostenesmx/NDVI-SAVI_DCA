@@ -5,7 +5,6 @@
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
 
-
 //===================================1.Periodo de estudio de 10 años (2011-2020).================================================================/
 
 var StartYear = 2011, EndYear = 2020;
@@ -51,13 +50,13 @@ var cloudMaskC2L7 = function(image) {
   //Esta puede generar una nueva imagen de banda única.
 //// La capa de nubes se representa como el tercer lugar, la confianza de la capa de nubes es 8-9 y la sombra de las nubes es el cuarto lugar
 ////// Seleccione los píxeles que tienen nubes y la confianza de las nubes es media y están cubiertos por sombras de nubes.
-  var mask = qa.bitwiseAnd(cloud)
+  var cloud02 = qa.bitwiseAnd(cloud)
     .and(qa.bitwiseAnd(cloudconfidence))
     .or(qa.bitwiseAnd(cloudShadow));
   //Elimina los píxeles de borde que no aparecen en todas las bandas
   var mask2 = image.mask().reduce(ee.Reducer.min());
   // Establezca los píxeles de la nube relacionados con la detección en 0 y la máscara retiene los datos cuya posición no es 0.
-  return image.updateMask(mask.not()).updateMask(mask2);
+  return image.updateMask(cloud02.not()).updateMask(mask2);
 }; //96 % de confiabilidad en los datos
 
 /*Para renombrar bandas de interés de la colección L7, y ser empleadas por su nombre..
