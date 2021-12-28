@@ -11,6 +11,9 @@ El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU 
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/C02_B_3_2_1_RBSK.JPG) 📖
 
+##Estimaciones.
+con la ejecución de este código se obtendrán, series de tiempo con valores mensuales de la mediana por año durante el periodo de estudio, por zona estudiada para ambos índices multiespectrales de vegetación NDVI y SAVI.
+
 ![alt text](https://github.com/Krotalo25/qgis_estilos/blob/master/collections/tipoINEGI/preview/estilos_previo.png)
 
 ![alt text](https://github.com/Krotalo25/qgis_estilos/blob/master/collections/tipoINEGI/preview/simbolos_previo.png)
