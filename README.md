@@ -5,7 +5,7 @@ NDVI-SAVI_DC_RBSK_BORRADOR
 ## Descripción 📋
 El presente código esta desarrollado para obtener índices multiespectrales de vegetación NDVI y SAVI, dentro de la plataforma Google Earth Engine  [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
 
-El repostirorio se elaboró de acuerdo a los lineamientos de [**QGIS Resource Sharing**](http://qgis-contribution.github.io/QGIS-ResourceSharing/author/creating-repository.html).
+El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU General Public License v3.0.**](https://choosealicense.com/licenses/gpl-3.0/).
 
 ## Visualización de la Reserva de la Bisofera de Sian ka´an (RBSK), a tráves de la colección 2 de Landsat 7, con composición de bandas B (3, 2, 1), en GEE.
 
