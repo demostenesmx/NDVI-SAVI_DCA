@@ -3,7 +3,7 @@ NDVI-SAVI_DC_RBSK_BORRADOR
 # Desarrollo de código y obtención de información para su posterior análisis.
 
 ## Descripción 📋
-El presente código esta desarrollado para obtener índices multiespectrales de vegetación NDVI y SAVI, dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK).  [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
+El presente código esta desarrollado para obtener índices multiespectrales de vegetación NDVI y SAVI, dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK), Quintana Roo, México.  [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
 
 El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU General Public License v3.0.**](https://choosealicense.com/licenses/gpl-3.0/).
 
@@ -11,8 +11,9 @@ El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU 
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/C02_B_3_2_1_RBSK.JPG) 📖
 
-##Estimaciones.
-#Con la ejecución de este código se obtendrán series de tiempo con valores mensuales de la mediana por año durante un periodo de 10 años, para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
+Estimaciones.
+
+Con la ejecución de este código se obtendrán series de tiempo con valores mensuales de la mediana por año durante un periodo de 10 años, para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZN_NDVI-SAVI.png)
 
