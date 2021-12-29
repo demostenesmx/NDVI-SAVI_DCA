@@ -3,7 +3,7 @@ NDVI-SAVI_DC_RBSK_BORRADOR
 # Desarrollo de código y obtención de información para su posterior análisis.
 
 ## Descripción 📋
-El presente código esta desarrollado para obtener índices multiespectrales de vegetación NDVI y SAVI, dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK), Quintana Roo, México.  [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
+El presente código esta desarrollado para obtener Índices de Vegetación Multiespectral (IVM) de Índice de Diferenbcia Normalizada (NDVI) e Índice de Vegetación Ajustado al Suelo (SAVI), dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK), Quintana Roo, México. Éste se compone de dos partes, una donde se obtienen las series de tiempo de la temporalidad total correspondiente a 10 años, y la segunda parte para exportar las capas raster bianuales, una capa con la categorización de los valores de los IVM para su manejo externo, además de estadisticos deescritivos entre otras amenidades.   [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
 
 El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU General Public License v3.0.**](https://choosealicense.com/licenses/gpl-3.0/).
 
