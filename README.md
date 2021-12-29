@@ -20,9 +20,10 @@ Con la ejecución de este código se obtendrán series de tiempo con valores men
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZS_NDVI-SAVI.png)
 
 ### Capas raster bianuales. 
-Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para su descarga en google drive y posteriormente ser descargadas a la PC personal para su manipulación a traves del sistema de información geografica de su preferencia.
+Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para su descarga en google drive y posteriormente ser descargadas a la PC personal para su manipulación.
 
-(http://qgis-contribution.github.io/QGIS-ResourceSharing/author/creating-repository.html)
-Despues agregalo a los repositorios instalados de la siguiente forma:
+(https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/Raster_Exportación.JPG)
+
+la manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferenciaa, en este caso se realizará sobre el software de acceso libre QGIS.
 
 ![alt text](https://github.com/Krotalo25/qgis_estilos/blob/master/Mi%20video.gif)
