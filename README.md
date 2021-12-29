@@ -24,6 +24,6 @@ Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para s
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/Raster_Exportación.JPG)
 
-la manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferenciaa, en este caso se realizará sobre el software de acceso libre QGIS.
+La manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferenciaa, en este caso se realizará sobre el software de acceso libre QGIS.
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/QGis.JPG)
