@@ -15,9 +15,17 @@ Estimaciones.
 
 Con la ejecución de este código se obtendrán series de tiempo con valores mensuales de la mediana por año durante un periodo de 10 años, para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
 
-![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZN_NDVI-SAVI.png)
+Ejemplos de forma individual:
 
-![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZS_NDVI-SAVI.png)
+1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
+
+2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
+
+Ejemplo de forma unificada:
+
+1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZN_NDVI-SAVI.png)
+
+2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZS_NDVI-SAVI.png)
 
 Histogramas de la distribución de los valores de los IVM estimados. (ejemplos).
 
@@ -31,6 +39,6 @@ Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para s
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/Raster_Exportación.JPG)
 
-La manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferenciaa, para el presente caso de estudio se utilizó el software de acceso libre QGIS.
+La manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferencia. Para el presente caso de estudio se utilizó el software de acceso libre QGIS.
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/QGis.JPG)
