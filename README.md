@@ -19,6 +19,13 @@ Con la ejecución de este código se obtendrán series de tiempo con valores men
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZS_NDVI-SAVI.png)
 
+Histogramas de la distribución de los valores de los IVM estimados. (ejemplos).
+
+![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/HIST_NDVI_ZN.png)
+
+![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/HIST_NDVI_ZS.png)
+
+
 ### Capas raster bianuales. 
 Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para su descarga en google drive y posteriormente ser descargadas a la PC personal para su manipulación.
 
