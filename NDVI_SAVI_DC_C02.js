@@ -41,7 +41,7 @@ var zonas = ee.FeatureCollection (ZN.merge(ZS));
 //https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR?hl=en
 //----------------------------------------------------------------------------------------------------------------------------------------------/
 
-//Se crea la función cloudMaskL457 para enmascarar nubes, sombras y nieve, mediante los valores de pixel de la banda QA_PIXEL
+//Se crea la función cloudMaskL457 para enmascarar nubes, sombras y sombra de nubes, mediante los valores de pixel de la banda QA_PIXEL
 var cloudMaskC2L7 = function(image) {
   var cloud = (1 << 3)
   var cloudconfidence = (1 << 9)
@@ -169,8 +169,8 @@ var savim =  ee.ImageCollection.fromImages(  // Devuelve la Imagen para Colecci�
           ); /// Colecciones apiladas
 
 //====================================8.3. Uniendo indices a una imagen.==========================================/
+
 var ivmmes = ndvim.merge(savim);
-//var ivm = ndvi.merge(savi);
 
 //=====================================9.Periodos Bianuales para una mejor representación y visualización de los cambios temporales en la vegetación en DC. =====================================================/
 
@@ -239,8 +239,11 @@ var NDVI5 = T5.normalizedDifference (['SR_B4_median','SR_B3_median']).set('syste
 //6.====================================================================================================================/
 var NDVI6 = T6.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T6.get('system:time_start')).rename('NDVI');
 
-//7.=================================Detección de cambio bianual en el NDVI para ambas zonas.==================================================/ 
-//var image_diff01 = NDVI1.subtract(NDVI5);
+//7.=================================Detección de cambio bianual en el NDVI para ambas zonas (ZN-ZS) .==================================================/ 
+var image_diffNDVI1 = NDVI1.subtract(NDVI2);
+var image_diffNDVI2 = NDVI2.subtract(NDVI3);
+var image_diffNDVI3 = NDVI3.subtract(NDVI4);
+var image_diffNDVI4 = NDVI4.subtract(NDVI5);
 
 //==========================10.2. Función para estimar el índice SAVI para  en un periodo de 10 años, compilando la periodicidad bianualmente.========================/
 
@@ -291,8 +294,12 @@ var SAVI6 = T6.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L)
     'SR_B3': T1.select ('SR_B3_median')})
  .set('system:time_start', T6.get('system:time_start')).rename ('SAVI');
 
-//7.=================================Detección de cambio bianual en el NDVI para ambas zonas.==================================================/ 
-//var image_diff02 = SAVI1.subtract(SAVI5);
+//7.=================================Detección de cambio bianual en el SAVI para ambas zonas (ZN-ZS).==================================================/ 
+
+var image_diffSAVI1 = SAVI1.subtract(SAVI2);
+var image_diffSAVI2 = SAVI2.subtract(SAVI3);
+var image_diffSAVI3 = SAVI3.subtract(SAVI4);
+var image_diffSAVI4 = SAVI4.subtract(SAVI5);
 
 //==========================================10.3. Declaracion de paleta de colores.=============/
 
@@ -311,7 +318,7 @@ var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
 var band02 = SAVImultitemporal.select('SAVI');
 
 //==============================================11.Reclasificación de valores considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
-//================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.===============================/
+//================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.
 
 //==============================================11.1. Reclasificación valores NDVI.===================================/
 var NDVI_C = NDVImultitemporal 
@@ -672,9 +679,48 @@ Export.image.toDrive({image: NDVI5,
   crs: 'EPSG:32616',
   maxPixels: 1e13});  
   
-//--------------------------------------------------------------------------------------------------------/
+ //===========================================15.1.4. Diferencia en la densidad de la cobertura de NDVI para ambas zonas de estudio.==============/ 
+  
+ //1.===============================================NDVI1-NDVI2.============/
+ 
+ Export.image.toDrive({image: image_diffNDVI1,
+  description: 'Drive_diff_NDVI1-NDVI2', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+  //2.================================================NDVI2-NDVI3.=========/
+  Export.image.toDrive({image: image_diffNDVI2,
+  description: 'Drive_diff_NDVI2-NDVI3', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+   //3.===============================================NDVI3-NDVI4.============/
+  Export.image.toDrive({image: image_diffNDVI3,
+  description: 'Drive_diff_NDVI3-NDVI4', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+   //4.===============================================NDVI4-NDVI5.============/
+  Export.image.toDrive({image: image_diffNDVI4,
+  description: 'Drive_diff_NDVI4-NDVI5', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+  //--------------------------------------------------------------------------------------------------------/
 
-//================================15.1.4. NDVI mensual al Assets.===============================/
+//================================15.1.5. NDVI mensual al Assets.===============================/
 Export.image.toAsset({image: ndvi,
   description: 'ASSET_Mensual_NDVI_'+StartYear+'_to_'+EndYear,
   assetId: 'Mensual_NDVI_'+StartYear+'_to_'+EndYear,
@@ -746,9 +792,47 @@ Export.image.toDrive({image: SAVI5,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
+//===========================================15.2.3.Diferencia en la densidad de la cobertura de SAVI para ambas zonas de estudio.=============/ 
+  
+  //1.===============================================SAVI1-SAVI2.============/
+  Export.image.toDrive({image: image_diffSAVI1,
+  description: 'Drive_diff_SAVI1-SAVI2', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+  //2.===============================================SAVI2-SAVI3.============/
+  Export.image.toDrive({image: image_diffSAVI2,
+  description: 'Drive_diff_SAVI2-SAVI3', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//3.===============================================SAVI3-SAVI4.============/
+  Export.image.toDrive({image: image_diffSAVI3,
+  description: 'Drive_diff_SAVI3-SAVI4', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//4.===============================================SAVI4-SAVI5.============/
+Export.image.toDrive({image: image_diffSAVI4,
+  description: 'Drive_diff_SAVI4-SAVI5', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/
 
-//6.==================== ===========15.2.3. SAVI Temporalidad Total a Assets.=============================================================/
+//==================== ===========15.2.4. SAVI Temporalidad Total a Assets.=============================================================/
 Export.image.toAsset({image: savi,
   description: 'ASSET_Mensual_SAVI'+StartYear+'_to_'+EndYear,
   assetId: 'Mensual_SAVI_'+StartYear+'_to_'+EndYear,
@@ -779,8 +863,8 @@ Map.addLayer (NDVI1,{max: 1.0, min: 0, palette: palette}, 'NDVI_2011-2012_ZE');
 Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
 
 //=====================================17.2. Añadir al mapa la detección de cambio bianual de los IVM entre T1 y T5 para ambas zonas.=========================/
-//Map.addLayer(image_diff01, palette, 'Detección de cambio NDVI_Zonas');
-//Map.addLayer(image_diff02, palette, 'Detección de cambio SAVI_Zonas');
+Map.addLayer(image_diffNDVI1, palette, 'Detección de cambio NDVI_Zonas');
+Map.addLayer(image_diffSAVI1, palette, 'Detección de cambio SAVI_Zonas');
 
 //====================================18.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
 
