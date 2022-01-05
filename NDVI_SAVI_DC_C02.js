@@ -310,10 +310,10 @@ var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
 
 var band02 = SAVImultitemporal.select('SAVI');
 
-//==============================================11.Categorización de valores  según Alecar et al., (2019), adaptado al área de estudio consideran los valores
-//=================================================obtenidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.===============================/
+//==============================================11.Reclasificación de valores considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
+//================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.===============================/
 
-//==============================================11.1. Categorización valores NDVI.===================================/
+//==============================================11.1. Reclasificación valores NDVI.===================================/
 var NDVI_C = NDVImultitemporal 
           .where(NDVImultitemporal .gt(-0.61).and(NDVImultitemporal.lte (0)),  1) // agua
           .where(NDVImultitemporal .gt(0).and(NDVImultitemporal.lte (0.25)),  2) //sin vegetación
@@ -321,7 +321,7 @@ var NDVI_C = NDVImultitemporal
           .where(NDVImultitemporal .gt(0.35).and(NDVImultitemporal .lte(0.65)), 4)//Densidad Media
           .where(NDVImultitemporal .gt(0.65).and(NDVImultitemporal .lte(0.91)),5); //Densidad Alta
           
-//===============================================11.2. Categorización valores SAVI.====================================/
+//===============================================11.2. Reclasificación valores SAVI.====================================/
 
 //1.=======================================================/
 var SAVI_C = SAVImultitemporal
