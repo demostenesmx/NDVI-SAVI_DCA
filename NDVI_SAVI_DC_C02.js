@@ -4,7 +4,7 @@
 
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
-//Este código se encuentra publicado en el repositorio GitHub, link de acceso: https://github.com/demostenesmx/NDVI-SAVI_DCA.git
+
 
 //===================================1.Periodo de estudio de 10 años (2011-2020).================================================================/
 
