@@ -322,6 +322,7 @@ var band02 = SAVImultitemporal.select('SAVI');
 //================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.
 
 //==============================================11.1. Reclasificación valores NDVI.===================================/
+
 var NDVI_C = NDVImultitemporal 
           .where(NDVImultitemporal .gt(-0.61).and(NDVImultitemporal.lte (0)),  1) // agua
           .where(NDVImultitemporal .gt(0).and(NDVImultitemporal.lte (0.25)),  2) //sin vegetación
@@ -331,7 +332,6 @@ var NDVI_C = NDVImultitemporal
           
 //===============================================11.2. Reclasificación valores SAVI.====================================/
 
-//1.=======================================================/
 var SAVI_C = SAVImultitemporal
           .where(SAVImultitemporal .gt(-0.77).and(SAVImultitemporal.lte (0)),  1) // agua
           .where(SAVImultitemporal .gt(0).and(SAVImultitemporal.lte (0.25)),  2) //sin vegetación
