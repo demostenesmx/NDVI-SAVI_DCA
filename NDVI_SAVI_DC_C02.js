@@ -4,6 +4,7 @@
 
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
+//Este código se encuentra publicado en el repositorio GitHub, link de acceso: https://github.com/demostenesmx/NDVI-SAVI_DCA.git
 
 //===================================1.Periodo de estudio de 10 años (2011-2020).================================================================/
 
@@ -403,7 +404,7 @@ var opciones = {
  
 // Creación del histograma y agregar las opciones de visualización.
  // Definir datos del histograma (imagen, región, resolución espacial en metros)
-var histograma01 = ui.Chart.image.histogram(band01, ZN, 30)
+var histograma01 = ui.Chart.image.histogram( band01, ZN, 30) //  
     // Definir nombres de las series
     .setSeriesNames([ 'NDVI'])
     // Agregar las opciones de histograma definidas previamente
@@ -720,13 +721,14 @@ Export.image.toDrive({image: NDVI5,
   
   //--------------------------------------------------------------------------------------------------------/
 
-//================================15.1.5. NDVI mensual al Assets.===============================/
-Export.image.toAsset({image: ndvi,
-  description: 'ASSET_Mensual_NDVI_'+StartYear+'_to_'+EndYear,
-  assetId: 'Mensual_NDVI_'+StartYear+'_to_'+EndYear,
+//================================15.1.5. NDVI sin reclasificar.===============================/
+Export.image.toDrive({image: NDVImultitemporal,
+  description: 'Drive_Total_NDVI_S/R_'+StartYear+'_to_'+EndYear,
+  folder: 'GEE',
   scale: 30,
-    region: ee.Geometry(Map.getBounds(true)),
-    maxPixels: 1e13});
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
 //************************************************************************************************/
 
 //=================================15.2. SAVI Total a Google Drive.=============================/
@@ -832,13 +834,14 @@ Export.image.toDrive({image: image_diffSAVI4,
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/
 
-//==================== ===========15.2.4. SAVI Temporalidad Total a Assets.=============================================================/
-Export.image.toAsset({image: savi,
-  description: 'ASSET_Mensual_SAVI'+StartYear+'_to_'+EndYear,
-  assetId: 'Mensual_SAVI_'+StartYear+'_to_'+EndYear,
+//==================== ===========15.2.4. SAVI sin reclasificar.=============================================================/
+Export.image.toDrive({image: SAVImultitemporal,
+  description: 'Drive_Total_SAVI_S/R_'+StartYear+'_to_'+EndYear,
+  folder: 'GEE',
   scale: 30,
-  region: ee.Geometry(Map.getBounds(true)),
-    maxPixels: 1e13});
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
 
 //======================================================16. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
 
