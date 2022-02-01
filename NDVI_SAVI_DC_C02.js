@@ -318,7 +318,7 @@ var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
 
 var band02 = SAVImultitemporal.select('SAVI');
 
-//==============================================11.Reclasificación de valores considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
+//==============================================11.Clasificación supervisada de los valores de NDVI y SAVI, considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
 //================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.
 
 //==============================================11.1. Reclasificación valores NDVI.===================================/
