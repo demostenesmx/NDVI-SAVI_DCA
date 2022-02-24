@@ -3,7 +3,7 @@ NDVI-SAVI_DC_RBSK_BORRADOR
 # Desarrollo de código y obtención de información para su posterior análisis.
 
 ## Descripción 📋
-El presente código esta desarrollado para obtener Índices de Vegetación Multiespectral (IVM) de Índice de Diferenbcia Normalizada (NDVI) e Índice de Vegetación Ajustado al Suelo (SAVI), dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK), Quintana Roo, México. Éste se compone de dos secciones, una donde se obtienen las series de tiempo de la temporalidad total correspondiente a 10 años, y la segunda para exportar las capas raster bianuales con valores estimados de los IVM, una capa con la categorización de los valores de los IVM para su manejo externo, además de estadisticos descriptivos, número de escenas de incidencia, Histogramas de los valores de los IVM por zona de estudio, así como las superficie de cada área estudiada, entre otros datos.   [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
+El presente código esta desarrollado para obtener Índices de Vegetación Multiespectral (IVM) de Índice de Diferenbcia Normalizada (NDVI) e Índice de Vegetación Ajustado al Suelo (SAVI), dentro de la plataforma Google Earth Engine para la Reserva de la Bisofera de Sian Ka´an (RBSK), Quintana Roo, México. Éste se compone de dos secciones, una donde se obtienen la distribución de los valores de NDVI y SAVI de forma mensual por año para un periodo de 10 años (2011-2020) y la segunda para exportar las capas raster bianuales con valores estimados de los IVM, una capa con la categorización de los valores de los IVM para su manejo externo, además de estadisticos descriptivos, número de escenas de incidencia, Histogramas de los valores de los IVM por zona de estudio, así como las superficie de cada área estudiada, entre otros datos.   [**GEE**](https://developers.google.com/earth-engine/guides/getstarted?hl=en).
 
 El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU General Public License v3.0.**](https://choosealicense.com/licenses/gpl-3.0/).
 
@@ -21,11 +21,9 @@ Ejemplos de forma individual:
 
 2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
 
-Ejemplo de forma unificada:
+1. ![alt text]( )
 
-1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZN_NDVI-SAVI.png)
-
-2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/IVM_ZS_NDVI-SAVI.png)
+2. ![alt text]( )
 
 Ejemplos de algunos Histogramas obtenidos donde se aprecia la distribución de los valores de los IVM estimados. 
 
