@@ -311,8 +311,7 @@ var palette = ['F6BA10','D4F610', 'B3F455','6AE817', '469D0D'];
 
 var NDVImultitemporal = (NDVI1.addBands(NDVI2).addBands(NDVI3)
                           .addBands (NDVI4).addBands (NDVI5));
- print (NDVImultitemporal);// para ver que representa
- 
+  
 var band01 = NDVImultitemporal.select('NDVI.*'); //Para representar los valores en histogramas
 
 //============================================10.5.Composición  multitemporal con el índice SAVI para el periodo 2011-2020.=================/
