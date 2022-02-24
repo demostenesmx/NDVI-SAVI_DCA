@@ -31,7 +31,7 @@ Ejemplos de algunos Histogramas obtenidos donde se aprecia la distribución de l
 
 1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
 
-2. ![alt text]( )
+2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-NDVI-ZS.png)
 
 
 ### Capas raster bianuales. 
