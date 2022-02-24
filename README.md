@@ -29,7 +29,7 @@ Ejemplo de forma unificada:
 
 Ejemplos de algunos Histogramas obtenidos donde se aprecia la distribución de los valores de los IVM estimados. 
 
-1. ![alt text]( )
+1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
 
 2. ![alt text]( )
 
