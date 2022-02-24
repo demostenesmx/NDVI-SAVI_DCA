@@ -4,9 +4,9 @@
 
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
+//https://courses.spatialthoughts.com/end-to-end-gee.html
 
-
-//===================================1.Periodo de estudio de 10 años (2011-2020).================================================================/
+//===================================1.Periodo de estudio 2011-2020 (10 años).================================================================/
 
 var StartYear = 2011, EndYear = 2020;
 
@@ -68,7 +68,7 @@ return image.select(
   );
 }*/
 
-//====================================4.Función para calcular NDVI y SAVI para toda la temporalidad de estudio (2011-2020).============================/
+//====================================4.Función para calcular NDVI y SAVI para el periodo de estudio 2011-2020.============================/
 
 var computeIVM = function(image){
   var SR_B3 = image.select('SR_B3').multiply(0.0000275).add(-0.2);
@@ -105,8 +105,8 @@ var colFilter = ee.Filter.and(
 var L7 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") //Del catalago de datos de GEE
     .filter(colFilter).map(computeIVM).map(cloudMaskC2L7).map(scale01);//.map(renameETM)
 
-//================================================7. Creando función para escala adecuada, para obtener valores optimos.==================================/
-//===========================7.1. Para toda la temporalidad.=============================================================================/
+//================================================7. Creando función para escala y factor de compensación, para obtener valores optimos.==================================/
+//===========================7.1. Para el periodo 2011-2020.=============================================================================/
 function scale01(image) {
   var opticalbands = image.select('SR_B.').multiply(0.0000275).add(-0.2);
   var medianbands = image.reduce(ee.Reducer.median());
@@ -226,7 +226,7 @@ var T6 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
 
 //=====================================10. Funciones para el calculo de Índices Multiespectrales de Vegetación (IMV) para del área de estudio en la RBSK.=========/
 
-//========================10.1. Función para estimar el índice NDVI para en un periodo de 10 años, compilando la periodicidad bianualmente.=======================/
+//========================10.1. Función para estimar el índice NDVI para el periodo 2011-2020, compilando la periodicidad bianualmente.=======================/
 //1.====================================================================================================================/
 var NDVI1 = T1.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T1.get('system:time_start')).rename('NDVI');
 //2.====================================================================================================================/
@@ -237,7 +237,8 @@ var NDVI3 = T3.normalizedDifference (['SR_B4_median','SR_B3_median']).set('syste
 var NDVI4 = T4.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T4.get('system:time_start')).rename('NDVI');
 //5.====================================================================================================================/
 var NDVI5 = T5.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T5.get('system:time_start')).rename('NDVI');
-//6.====================================================================================================================/
+
+//6.===================================================2020=================================================================/
 var NDVI6 = T6.normalizedDifference (['SR_B4_median','SR_B3_median']).set('system:time_start', T6.get('system:time_start')).rename('NDVI');
 
 //7.=================================Detección de cambio bianual en el NDVI para ambas zonas (ZN-ZS) .==================================================/ 
@@ -246,7 +247,7 @@ var image_diffNDVI2 = NDVI2.subtract(NDVI3);
 var image_diffNDVI3 = NDVI3.subtract(NDVI4);
 var image_diffNDVI4 = NDVI4.subtract(NDVI5);
 
-//==========================10.2. Función para estimar el índice SAVI para  en un periodo de 10 años, compilando la periodicidad bianualmente.========================/
+//==========================10.2. Función para estimar el índice SAVI para el periodo 2011-2020, compilando la periodicidad bianualmente.========================/
 
 //1.==============================================================================/
 var SAVI1 = T1.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
@@ -262,37 +263,37 @@ var SAVI1 = T1.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L)
 //2.=================================================================================/
 var SAVI2 = T2.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
-    'SR_B4': T1.select ('SR_B4_median'),
-    'SR_B3': T1.select ('SR_B3_median')})
+    'SR_B4': T2.select ('SR_B4_median'),
+    'SR_B3': T2.select ('SR_B3_median')})
  .set('system:time_start', T2.get('system:time_start')).rename ('SAVI');
 
 //3.=================================================================================/
 var SAVI3 = T3.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
-    'SR_B4': T1.select ('SR_B4_median'),
-    'SR_B3': T1.select ('SR_B3_median')})
+    'SR_B4': T3.select ('SR_B4_median'),
+    'SR_B3': T3.select ('SR_B3_median')})
  .set('system:time_start', T3.get('system:time_start')).rename ('SAVI');
 
 //4.=================================================================================/
 var SAVI4 = T4.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
-    'SR_B4': T1.select ('SR_B4_median'),
-    'SR_B3': T1.select ('SR_B3_median')})
+    'SR_B4': T4.select ('SR_B4_median'),
+    'SR_B3': T4.select ('SR_B3_median')})
  .set('system:time_start', T4.get('system:time_start')).rename ('SAVI');
 
 //5.==================================================================================/
 var SAVI5 = T5.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
-    'SR_B4': T1.select ('SR_B4_median'),
-    'SR_B3': T1.select ('SR_B3_median')})
+    'SR_B4': T5.select ('SR_B4_median'),
+    'SR_B3': T5.select ('SR_B3_median')})
  .set('system:time_start', T5.get('system:time_start')).rename ('SAVI');
 
 
-//6.===================================================================================/
+//6.=========================================2020==========================================/
 var SAVI6 = T6.expression('float ((SR_B4 - SR_B3) / (SR_B4 + SR_B3 + L) * (1+ L))',{
     'L': 0.5,
-    'SR_B4': T1.select ('SR_B4_median'),
-    'SR_B3': T1.select ('SR_B3_median')})
+    'SR_B4': T6.select ('SR_B4_median'),
+    'SR_B3': T6.select ('SR_B3_median')})
  .set('system:time_start', T6.get('system:time_start')).rename ('SAVI');
 
 //7.=================================Detección de cambio bianual en el SAVI para ambas zonas (ZN-ZS).==================================================/ 
@@ -306,23 +307,67 @@ var image_diffSAVI4 = SAVI4.subtract(SAVI5);
 
 var palette = ['F6BA10','D4F610', 'B3F455','6AE817', '469D0D'];
 
-//===========================================10.4.Composición bianual multiteporal con valores del índice NDVI por un perio de 10 años.============/
+//===========================================10.4.Composición multiteporal (2011-2020) con valores del índice NDVI por un perio de 10 años.============/
+
 var NDVImultitemporal = (NDVI1.addBands(NDVI2).addBands(NDVI3)
                           .addBands (NDVI4).addBands (NDVI5));
-                          
-var band01 = NDVImultitemporal.select('NDVI');
-//============================================10.5.Composición bisnual multitemporal con el índice SAVI por un periodo de 10 años.=================/
+ print (NDVImultitemporal);// para ver que representa
+ 
+var band01 = NDVImultitemporal.select('NDVI.*'); //Para representar los valores en histogramas
+
+//============================================10.5.Composición  multitemporal con el índice SAVI para el periodo 2011-2020.=================/
 
 var SAVImultitemporal = (SAVI1.addBands(SAVI2).addBands(SAVI3)
                             .addBands (SAVI4).addBands (SAVI5));
 
-var band02 = SAVImultitemporal.select('SAVI');
+var band02 = SAVImultitemporal.select('SAVI.*'); //Para representar los valores en histogramas.
 
-//==============================================11.Categorización de los valores de NDVI y SAVI, considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
+//==============================================11.Categorización de valores considerando lo obtenido por Alecar et al., (2019), adaptado al área de estudio tomando de referencia=======/
 //================================================= los resultados conseguidos por Gomez-Gallardo, (2019) en las costas de Baja California Sur, México.
 
-//==============================================11.1. Reclasificación valores NDVI.===================================/
+//=============================================11.1. Reclasificación de valores de NDVI por Bianualidad.========================================//
 
+//1.==============================================(2011-2012)===============================================================//
+var NDVI_Bia01 =NDVI1
+          .where(NDVI1 .gt(-0.61).and(NDVI1 .lte (0)),  1) // agua
+          .where(NDVI1 .gt(0).and(NDVI1.lte (0.25)),  2) //sin vegetación
+          .where(NDVI1 .gt(0.25).and(NDVI1 .lte(0.35)), 3)//Densidad Baja
+          .where(NDVI1 .gt(0.35).and(NDVI1 .lte(0.65)), 4)//Densidad Media
+          .where(NDVI1 .gt(0.65).and(NDVI1 .lte(0.91)),5); //Densidad Alta
+
+//2.==============================================(2013-2014)==============================================================//
+var NDVI_Bia02 =NDVI2
+          .where(NDVI2 .gt(-0.61).and(NDVI2.lte (0)),  1) // agua
+          .where(NDVI2 .gt(0).and(NDVI2.lte (0.25)),  2) //sin vegetación
+          .where(NDVI2 .gt(0.25).and(NDVI2 .lte(0.35)), 3)//Densidad Baja
+          .where(NDVI2 .gt(0.35).and(NDVI2 .lte(0.65)), 4)//Densidad Media
+          .where(NDVI2 .gt(0.65).and(NDVI2 .lte(0.91)),5); //Densidad Alta
+
+//3.===============================================(2015-2016)=============================================================//          
+ var NDVI_Bia03 =NDVI3
+          .where(NDVI3 .gt(-0.61).and(NDVI3.lte (0)),  1) // agua
+          .where(NDVI3 .gt(0).and(NDVI3.lte (0.25)),  2) //sin vegetación
+          .where(NDVI3 .gt(0.25).and(NDVI3 .lte(0.35)), 3)//Densidad Baja
+          .where(NDVI3 .gt(0.35).and(NDVI3 .lte(0.65)), 4)//Densidad Media
+          .where(NDVI3 .gt(0.65).and(NDVI3 .lte(0.91)),5); //Densidad Alta         
+ 
+ //4.=============================================(2017-2018)===============================================================//         
+ var NDVI_Bia04 =NDVI4
+          .where(NDVI4 .gt(-0.61).and(NDVI4.lte (0)),  1) // agua
+          .where(NDVI4 .gt(0).and(NDVI4.lte (0.25)),  2) //sin vegetación
+          .where(NDVI4 .gt(0.25).and(NDVI4 .lte(0.35)), 3)//Densidad Baja
+          .where(NDVI4 .gt(0.35).and(NDVI4 .lte(0.65)), 4)//Densidad Media
+          .where(NDVI4.gt(0.65).and(NDVI4 .lte(0.91)),5); //Densidad Alta
+ 
+ //5.============================================(2019-2020)================================================================//         
+ var NDVI_Bia05 =NDVI5
+          .where(NDVI5 .gt(-0.61).and(NDVI5.lte (0)),  1) // agua
+          .where(NDVI5 .gt(0).and(NDVI5.lte (0.25)),  2) //sin vegetación
+          .where(NDVI5 .gt(0.25).and(NDVImultitemporal .lte(0.35)), 3)//Densidad Baja
+          .where(NDVI5 .gt(0.35).and(NDVI5 .lte(0.65)), 4)//Densidad Media
+          .where(NDVI5 .gt(0.65).and(NDVI5 .lte(0.91)),5); //Densidad Alta         
+          
+//==============================================11.2.Reclasificación total de valores NDVI (2011-2020).===================================/
 var NDVI_C = NDVImultitemporal 
           .where(NDVImultitemporal .gt(-0.61).and(NDVImultitemporal.lte (0)),  1) // agua
           .where(NDVImultitemporal .gt(0).and(NDVImultitemporal.lte (0.25)),  2) //sin vegetación
@@ -330,7 +375,50 @@ var NDVI_C = NDVImultitemporal
           .where(NDVImultitemporal .gt(0.35).and(NDVImultitemporal .lte(0.65)), 4)//Densidad Media
           .where(NDVImultitemporal .gt(0.65).and(NDVImultitemporal .lte(0.91)),5); //Densidad Alta
           
-//===============================================11.2. Reclasificación valores SAVI.====================================/
+//===============================================11.3. Reclasificación valores SAVI por Bianualidad.====================================/
+
+//1.==============================================(2011-2012)===============================================================//
+var SAVI_Bia01 =SAVI1
+          .where(SAVI1 .gt(-0.61).and(SAVI1.lte (0)),  1) // agua
+          .where(SAVI1 .gt(0).and(SAVI1.lte (0.25)),  2) //sin vegetación
+          .where(SAVI1 .gt(0.25).and(SAVI1 .lte(0.35)), 3)//Densidad Baja
+          .where(SAVI1 .gt(0.35).and(SAVI1 .lte(0.65)), 4)//Densidad Media
+          .where(SAVI1 .gt(0.65).and(SAVI1 .lte(0.91)),5); //Densidad Alta
+
+//2.==============================================(2013-2014)==============================================================//
+var SAVI_Bia02 =SAVI2
+          .where(SAVI2 .gt(-0.61).and(SAVI2.lte (0)),  1) // agua
+          .where(SAVI2 .gt(0).and(SAVI2.lte (0.25)),  2) //sin vegetación
+          .where(SAVI2 .gt(0.25).and(SAVI2 .lte(0.35)), 3)//Densidad Baja
+          .where(SAVI2 .gt(0.35).and(SAVI2 .lte(0.65)), 4)//Densidad Media
+          .where(SAVI2 .gt(0.65).and(SAVI2 .lte(0.91)),5); //Densidad Alta
+
+//3.===============================================(2015-2016)=============================================================//          
+ var SAVI_Bia03 =SAVI3
+          .where(SAVI3 .gt(-0.61).and(SAVI3.lte (0)),  1) // agua
+          .where(SAVI3 .gt(0).and(SAVI3.lte (0.25)),  2) //sin vegetación
+          .where(SAVI3 .gt(0.25).and(SAVI3 .lte(0.35)), 3)//Densidad Baja
+          .where(SAVI3 .gt(0.35).and(SAVI3 .lte(0.65)), 4)//Densidad Media
+          .where(SAVI3 .gt(0.65).and(SAVI3 .lte(0.91)),5); //Densidad Alta         
+ 
+ //4.=============================================(2017-2018)===============================================================//         
+ var SAVI_Bia04 =SAVI4
+          .where(SAVI4 .gt(-0.61).and(SAVI4.lte (0)),  1) // agua
+          .where(SAVI4 .gt(0).and(SAVI4.lte (0.25)),  2) //sin vegetación
+          .where(SAVI4 .gt(0.25).and(SAVI4 .lte(0.35)), 3)//Densidad Baja
+          .where(SAVI4 .gt(0.35).and(SAVI4 .lte(0.65)), 4)//Densidad Media
+          .where(SAVI4 .gt(0.65).and(SAVI4 .lte(0.91)),5); //Densidad Alta
+ 
+ //5.============================================(2019-2020)================================================================//         
+ 
+ var SAVI_Bia05 =SAVI5
+          .where(SAVI5 .gt(-0.61).and(SAVI5.lte (0)),  1) // agua
+          .where(SAVI5 .gt(0).and(SAVI5.lte (0.25)),  2) //sin vegetación
+          .where(SAVI5 .gt(0.25).and(SAVI5 .lte(0.35)), 3)//Densidad Baja
+          .where(SAVI5 .gt(0.35).and(SAVI5 .lte(0.65)), 4)//Densidad Media
+          .where(SAVI5 .gt(0.65).and(SAVI5 .lte(0.91)),5); //Densidad Alta         
+          
+//===============================================11.4. Reclasificación total de valores SAVI (2011-2020).====================================/
 
 var SAVI_C = SAVImultitemporal
           .where(SAVImultitemporal .gt(-0.77).and(SAVImultitemporal.lte (0)),  1) // agua
@@ -339,45 +427,52 @@ var SAVI_C = SAVImultitemporal
           .where(SAVImultitemporal .gt(0.35).and(SAVImultitemporal.lte(0.45)), 4)//Densidad Media
           .where(SAVImultitemporal .gt(0.45).and(SAVImultitemporal.lte(0.65)),5); //Densidad Alta
           
-//================================================12.Imprimir en consola los valores máximos y mínimos obtendios del NDVI y SAVI por zona (ZN-ZS) en 10 años.=========================/
+//================================================12.Estadisticos descriptivos para NDVI y SAVI para cada zona (ZN-ZS) por bianualidades y para el periodo 2011-2020.=========================/
 
-var reducer1 = ee.Reducer.mean();
+var reducer1 = ee.Reducer.mean(); //variables y funciones para obtener estadisticos descriptivos.
 var reducers = reducer1.combine({reducer2: ee.Reducer.median(), sharedInputs: true})
                        .combine({reducer2: ee.Reducer.stdDev(), sharedInputs: true})
                        .combine({reducer2: ee.Reducer.variance(), sharedInputs: true})
                        .combine({reducer2: ee.Reducer.max(), sharedInputs: true})
                        .combine({reducer2: ee.Reducer.min(), sharedInputs: true});
-
-var results =NDVImultitemporal.select('NDVI').reduceRegion({reducer: reducers,
+                               
+//2.=========================================Estadisticos descriptivos para el periodo 2011-2020                               
+                                
+var results_01 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZN,
                                 scale: 30,
-                                bestEffort: true});
+                                bestEffort: true}); 
 
-print ('Estadisticos_NDVI_ZN', results);
+//3.=========================================Imprimir en consola los estadisticos descriptivos estimados para NDI en distintos periodos.==============/
+
+print ('Estadisticos_NDVI_ZN', results_01);
 
 //2.=========================================================/
-var results =SAVImultitemporal.select('SAVI').reduceRegion({reducer: reducers,
+
+var results_02 =SAVImultitemporal.select('SAVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZN,
                                 scale: 30,
-                                bestEffort: true});
+                                bestEffort: true}); //Estadisticos descriptivos para el periodo 2011-2020
 
-print ('Estadisticos_SAVI_ZN', results);
+
+print ('Estadisticos_SAVI_ZN', results_02);
 
 //3.==========================================================/
-var results =NDVImultitemporal.select('NDVI').reduceRegion({reducer: reducers,
+var results_03 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZS,
                                 scale: 30,
                                 bestEffort: true});
 
-print ('Estadisticos_NDVI_ZS', results);
+print ('Estadisticos_NDVI_ZS', results_03);
 
 //4.===========================================================/
-var results =SAVImultitemporal.select('SAVI').reduceRegion({reducer: reducers,
+var results_04 =SAVImultitemporal.select('SAVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZS,
                                 scale: 30,
                                 bestEffort: true});
 
-print ('Estadisticos_SAVI_ZS', results);
+
+print ('Estadisticos_SAVI_ZS', results_04);
 
 //====================================12.1. Imprimir el tamaño de la compilación de escenas del área de estudio donde se aplican los índices de vegetación.=====================/
 print (ndvi.size());
@@ -396,7 +491,7 @@ var opciones = {
   hAxis: {title: 'Distribución Valores NDVI'},
   //Título del eje vertical
   vAxis: {title: 'Frecuencia'},
-   minBucketWidth:(-0.5,1, 0.05),
+   minBucketWidth:(-1,0, 1),
   // Colores de las series
   series: {
     0: {color: 'green'},
@@ -404,7 +499,7 @@ var opciones = {
  
 // Creación del histograma y agregar las opciones de visualización.
  // Definir datos del histograma (imagen, región, resolución espacial en metros)
-var histograma01 = ui.Chart.image.histogram( band01, ZN, 30) //  
+var histograma01 = ui.Chart.image.histogram(band01 , ZN, 30) //  band01
     // Definir nombres de las series
     .setSeriesNames([ 'NDVI'])
     // Agregar las opciones de histograma definidas previamente
@@ -555,71 +650,11 @@ print(chart02);
 print(chart03);
 print(chart04);
 
-//====================================14.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur, 10 años comparativo.==============================/
+//======================================================14. Exportar resultados ==========================/
 
-//1.====================================ZN.======================================================/
-var chart05 =
-    ui.Chart.image
-       .series({
-         imageCollection: ivmmes,
-         region: ZN,
-         reducer: ee.Reducer.median(),
-          scale: 30,
-          xProperty: 'system:time_start'
-        })
-        .setSeriesNames(['NDVI ', 'SAVI'])
-        .setChartType('LineChart')
-        .setOptions({
-          title: 'Índices de Vegetación Multiespectral ZN',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores',
-            titleTextStyle: {italic: false, bold: true}
-          },
-     series: {
-    0: {pointSize: 4, color: 'e37d05'},//lineWidth: 3
-    1: {pointSize: 4, color: '1d6b99'}  //lineDashStyle: [4, 4]
-  },
-   curveType: 'function',
-    chartArea: {backgroundColor: 'EBEBEB'}
-        
-        });
-//==========================14.1.Imprimir gráfico en la consola=============================/     
-      print(chart05);
-//2.=================================ZS.==========================================================/
-var chart06 =
-    ui.Chart.image
-       .series({
-         imageCollection: ivmmes,
-         region: ZS,
-         reducer: ee.Reducer.median(),
-          scale: 30,
-          xProperty: 'system:time_start'
-        })
-        .setSeriesNames(['NDVI ', 'SAVI'])
-        .setOptions({
-          title: 'Índices de Vegetación Multiespectral ZS',
-          hAxis: {title: 'Periodo de Estudio', titleTextStyle: {italic: false, bold: true}},
-          vAxis: {
-            title: 'Valores',
-            titleTextStyle: {italic: false, bold: true}
-          },
-    series: {
-    0: {pointSize: 4, color: 'e37d05'},
-    1: {pointSize: 4,  color: '1d6b99'}//, lineWidth: 3
-  },
-  curveType: 'function',
-    chartArea: {backgroundColor: 'EBEBEB'}
-                  
-        });
-//=====================14.2.Imprimir gráfico en la consola.===============================/      
-print(chart06);
+// =============================14.1. NDVI Total a Google Drive.================================================/
 
-//======================================================15. Exportar resultados ==========================/
-
-// =============================15.1. NDVI Total a Google Drive.================================================/
-
-//===========================15.1.2. Resultados NDVI Temporalidad total (2011-2020).============================/
+//===========================14.1.2. Resultados NDVI Temporalidad total (2011-2020).============================/
 Export.image.toDrive({image: NDVI_C,
   description: 'Drive_Total_NDVI_C_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -629,7 +664,7 @@ Export.image.toDrive({image: NDVI_C,
   maxPixels: 1e13});
   
 //-------------------------------------------------------------------------------------------------------------------------------------/  
-//===========================15.1.3. Datos Bianuales de NDVI en las zonas de estudio (ZN-ZS)======================/
+//===========================14.1.3. Datos Bianuales de NDVI en las zonas de estudio (ZN-ZS)======================/
 
 //1. ==========================================2011-2012.===========================================/
 Export.image.toDrive({image: NDVI1,
@@ -680,7 +715,7 @@ Export.image.toDrive({image: NDVI5,
   crs: 'EPSG:32616',
   maxPixels: 1e13});  
   
- //===========================================15.1.4. Diferencia en la densidad de la cobertura de NDVI para ambas zonas de estudio.==============/ 
+ //===========================================14.1.4. Diferencia en la densidad de la cobertura de NDVI para ambas zonas de estudio.==============/ 
   
  //1.===============================================NDVI1-NDVI2.============/
  
@@ -721,7 +756,7 @@ Export.image.toDrive({image: NDVI5,
   
   //--------------------------------------------------------------------------------------------------------/
 
-//================================15.1.5. NDVI sin reclasificar.===============================/
+//================================14.1.5. NDVI sin reclasificar.===============================/
 Export.image.toDrive({image: NDVImultitemporal,
   description: 'Drive_Total_NDVI_S/R_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -731,9 +766,9 @@ Export.image.toDrive({image: NDVImultitemporal,
   maxPixels: 1e13});
 //************************************************************************************************/
 
-//=================================15.2. SAVI Total a Google Drive.=============================/
+//=================================14.2. SAVI Total a Google Drive.=============================/
 
-//=================================15.2.1. Resultados SAVI Temporalidad total (2011-2020).===================================/
+//=================================14.2.1. Resultados SAVI Temporalidad total (2011-2020).===================================/
 
 Export.image.toDrive({image: SAVI_C,
   description: 'Drive_Total_SAVI_C_'+StartYear+'_to_'+EndYear,
@@ -743,7 +778,7 @@ Export.image.toDrive({image: SAVI_C,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
- //================================15.2.2. Datos Bianuales de SAVI en las zonas de estudio (ZN-ZS)=============================/
+ //================================14.2.2. Datos Bianuales de SAVI en las zonas de estudio (ZN-ZS)=============================/
 
 //1.================================2011-2012 ===============================/  
   Export.image.toDrive({image: SAVI1,
@@ -794,7 +829,7 @@ Export.image.toDrive({image: SAVI5,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//===========================================15.2.3.Diferencia en la densidad de la cobertura de SAVI para ambas zonas de estudio.=============/ 
+//===========================================14.2.3.Diferencia en la densidad de la cobertura de SAVI para ambas zonas de estudio.=============/ 
   
   //1.===============================================SAVI1-SAVI2.============/
   Export.image.toDrive({image: image_diffSAVI1,
@@ -834,7 +869,7 @@ Export.image.toDrive({image: image_diffSAVI4,
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/
 
-//==================== ===========15.2.4. SAVI sin reclasificar.=============================================================/
+//==================== ===========14.2.4. SAVI sin reclasificar.=============================================================/
 Export.image.toDrive({image: SAVImultitemporal,
   description: 'Drive_Total_SAVI_S/R_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -843,7 +878,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//======================================================16. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
+//======================================================15. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
 
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
@@ -851,13 +886,13 @@ var rgb_vis = {
   max: 0.2,
 }; 
 
-//===== ==========================17. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
+//===== ==========================16. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
 //=================================adaptado para este estudio.===================================================================/
 
 Map.addLayer ( NDVI_C.clip(ee.FeatureCollection(zonas)),{max: 5, min: 1}, 'Categorizado_NDVI_Zonas', true);
 Map.addLayer ( SAVI_C.clip(ee.FeatureCollection(zonas)),{max: 5, min: 1}, 'Categorizado_SAVI_Zonas', true);
 
-//=================================17.1.Añadir al mapa los valores de las anualidades para cada zona (ZN-ZS) de estudio en la RBSK==========================/
+//=================================16.1.Añadir al mapa los valores de las anualidades para cada zona (ZN-ZS) de estudio en la RBSK==========================/
 
 Map.addLayer (NDVImultitemporal.clip(ee.FeatureCollection(zonas)), {max: 1, min: 0, gamma: 1.4,}, 'NDVI multitemporal Zonas');
 Map.addLayer (SAVImultitemporal.clip(ee.FeatureCollection(zonas)), {max: 1, min: 0, gamma: 1.4,}, 'SAVI multitemporal Zonas');
@@ -865,11 +900,11 @@ Map.addLayer (SAVImultitemporal.clip(ee.FeatureCollection(zonas)), {max: 1, min:
 Map.addLayer (NDVI1,{max: 1.0, min: 0, palette: palette}, 'NDVI_2011-2012_ZE');
 Map.addLayer (SAVI1,{max: 1.0, min: 0, palette: palette}, 'SAVI_2011-2012_ZE');
 
-//=====================================17.2. Añadir al mapa la detección de cambio bianual de los IVM entre T1 y T5 para ambas zonas.=========================/
+//=====================================16.2. Añadir al mapa la detección de cambio bianual de los IVM entre T1 y T5 para ambas zonas.=========================/
 Map.addLayer(image_diffNDVI1, palette, 'Detección de cambio NDVI_Zonas');
 Map.addLayer(image_diffSAVI1, palette, 'Detección de cambio SAVI_Zonas');
 
-//====================================18.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
+//====================================17.Añadir al mapa la representación de la mediana de la imagen y perimetro del área de estudio.==========================/
 
 Map.addLayer( L7.median().clip(Sian_Pol), rgb_vis, 'RGB (mediana)');
 
@@ -877,6 +912,6 @@ Map.addLayer (Sian_Per,{color:'red'}, 'RBSK');
 Map.addLayer (ZN, {color:'blue'}, 'ZN');
 Map.addLayer (ZS, {color:'cyan'}, 'ZS');
 
-//======================================19.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
+//======================================18.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
 
