@@ -31,7 +31,7 @@ Resultados de Histogramas de la distribución de los valores bianuales de los IV
 
 2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-NDVI-ZS.png)
 
-3. ![alt text]()
+3. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-SAVI-ZN_02.png)
 
 4. ![alt text]()
 
