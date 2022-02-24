@@ -15,17 +15,17 @@ Estimaciones.
 
 Con la ejecución de este código se obtendrán series de tiempo con valores mensuales por año durante un periodo de 10 años, para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
 
-Ejemplos de forma individual:
+Resultados de la distribución de valores por mes por año para el periodo 2011-2020:
 
 1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN_01.png)
 
-2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
+2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZS.png)
 
-1. ![alt text]( )
+3. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
 
-2. ![alt text]( )
+4. ![alt text]( )
 
-Ejemplos de algunos Histogramas obtenidos donde se aprecia la distribución de los valores de los IVM estimados. 
+Resultados de Histogramas obtenidos donde se aprecia la distribución de los valores bianuales de los IVM estimados por zona (ZN-ZS). 
 
 1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
 
