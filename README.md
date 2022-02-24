@@ -29,9 +29,9 @@ Ejemplo de forma unificada:
 
 Ejemplos de algunos Histogramas obtenidos donde se aprecia la distribución de los valores de los IVM estimados. 
 
-1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/HIST_NDVI_ZN.png)
+1. ![alt text]( )
 
-2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/HIST_NDVI_ZS.png)
+2. ![alt text]( )
 
 
 ### Capas raster bianuales. 
