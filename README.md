@@ -17,7 +17,7 @@ Con la ejecución de este código se obtendrán series de tiempo con valores men
 
 Ejemplos de forma individual:
 
-1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
+1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN_01.png)
 
 2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
 
