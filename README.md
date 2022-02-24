@@ -31,7 +31,7 @@ Resultados de Histogramas obtenidos donde se aprecia la distribución de los val
 
 2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-NDVI-ZS.png)
 
-3. ![alt text]()
+3. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-SAVI-ZN.png)
 
 4. ![alt text]()
 
