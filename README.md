@@ -13,7 +13,7 @@ El repostirorio se elaboró de acuerdo a los lineamientos de la [**licencia GNU 
 
 Estimaciones.
 
-Con la ejecución de este código se obtendrán series de tiempo con valores mensuales por año durante un periodo de 10 años, para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
+Con la ejecución de este código se obtendrán series de tiempo con valores mensuales por año durante un periodo de 10 años (2011-2020), para la zona norte y sur de la RBSK, con ambos índices multiespectrales de vegetación NDVI y SAVI.
 
 Resultados de la distribución de valores por mes por año para el periodo 2011-2020:
 
@@ -25,7 +25,7 @@ Resultados de la distribución de valores por mes por año para el periodo 2011-
 
 4. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/SAVI-ZS.png)
 
-Resultados de Histogramas obtenidos donde se aprecia la distribución de los valores bianuales de los IVM estimados por zona (ZN-ZS). 
+Resultados de Histogramas de la distribución de los valores bianuales de los IVM estimados por zona (ZN-ZS) para el periodo 2011-2020. 
 
 1. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/NDVI-ZN.png)
 
