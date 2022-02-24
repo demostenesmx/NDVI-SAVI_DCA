@@ -31,9 +31,9 @@ Resultados de Histogramas de la distribución de los valores bianuales de los IV
 
 2. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-NDVI-ZS.png)
 
-3. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-SAVI-ZN.png)
+3. ![alt text]()
 
-4. ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/H-SAVI-ZS.png)
+4. ![alt text]()
 
 ### Capas raster bianuales. 
 Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para su descarga en google drive y posteriormente ser descargadas a la PC personal para su manipulación. Este script fue elaborado mendiante la plataforma GEE. Se puede acceder a través del siguiente link: https://code.earthengine.google.com/?accept_repo=users/veronica78mere/DCA_Tesis
