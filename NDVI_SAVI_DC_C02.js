@@ -349,7 +349,7 @@ var NDVI_Bia02_C =NDVI2
  var NDVI_Bia05_C =NDVI5
           .where(NDVI5 .gt(-0.64).and(NDVI5.lte (0)),  1) // Suelo desnudo y/o Agua;
           .where(NDVI5 .gt(0).and(NDVI5.lte (0.25)),  2) //Vegetación de baja densidad; 
-          .where(NDVI5 .gt(0.25).and(NDVImultitemporal .lte(0.35)), 3)// Vegetación de densidad media baja;
+          .where(NDVI5 .gt(0.25).and(NDVI5.lte(0.35)), 3)// Vegetación de densidad media baja;
           .where(NDVI5 .gt(0.35).and(NDVI5 .lte(0.65)), 4)// Vegetación de densidad media alta; y
           .where(NDVI5 .gt(0.65).and(NDVI5 .lte(0.90)),5); // Vegetación de alta densidad.        
           
