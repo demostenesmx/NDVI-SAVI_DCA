@@ -833,7 +833,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
   
   //1.===============================================SAVI1-SAVI2.============/
   Export.image.toDrive({image: image_diffSAVI1,
-  description: 'Drive_diff_SAVI1-SAVI2', 
+  description: 'Diff_SAVI1-SAVI2', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -842,7 +842,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
   
   //2.===============================================SAVI2-SAVI3.============/
   Export.image.toDrive({image: image_diffSAVI2,
-  description: 'Drive_diff_SAVI2-SAVI3', 
+  description: 'Diff_SAVI2-SAVI3', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -851,7 +851,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
 
 //3.===============================================SAVI3-SAVI4.============/
   Export.image.toDrive({image: image_diffSAVI3,
-  description: 'Drive_diff_SAVI3-SAVI4', 
+  description: 'Diff_SAVI3-SAVI4', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -860,7 +860,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
 
 //4.===============================================SAVI4-SAVI5.============/
 Export.image.toDrive({image: image_diffSAVI4,
-  description: 'Drive_diff_SAVI4-SAVI5', 
+  description: 'Diff_SAVI4-SAVI5', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
