@@ -923,7 +923,6 @@ Map.addLayer(image_diffSAVI1, palette, 'Detección de cambio SAVI_Zonas');
 
 Map.addLayer( L7.median().clip(Sian_Pol), rgb_vis, 'RGB (mediana)');
 Map.addLayer (T6.clip(Sian_Pol), veg_vis, 'VEG (mediana)');
-Map.addLayer (L7.median().clip(zonas), veg_vis, 'VEG_DC (mediana)');
 Map.addLayer (Sian_Per,{color:'yellow'}, 'RBSK');
 Map.addLayer (ZN, {color:'blue'}, 'ZN');
 Map.addLayer (ZS, {color:'cyan'}, 'ZS');
