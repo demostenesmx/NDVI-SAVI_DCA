@@ -215,7 +215,7 @@ var T5 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
-//====================================9.1. Información del periodo 2011-2020 del área de estudio.============================/
+//====================================9.1. Extra: Información del periodo 2020-2020 del área de estudio.============================/
 
 var T6 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2020-01-01', '2020-12-31') 
