@@ -888,7 +888,7 @@ Export.image.toDrive({image: T6.select('SR_B4_median', 'SR_B3_median', 'SR_B2_me
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//======================================================17. Visualizar al mapa combinación de color verdadero B(3,2,1).=========================/ ========================/
+//======================================================17. Visualizar al mapa combinación de color verdadero B (3,2,1) y vegetación B (4,3,2).=========================/ ========================/
 
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
