@@ -1,5 +1,5 @@
 # NDVI-SAVI_DCA
-NDVI-SAVI_DC_RBSK_BORRADOR
+NDVI-SAVI_DC_RBSK
 # Desarrollo de código y obtención de información para su posterior análisis.
 
 ## Descripción 📋
