@@ -1,5 +1,5 @@
-# Estimación de la distribución mensual de NDVI-SAVI_RBSK_DCA y obtención de raster´s bianuales.
-NDVI-SAVI_DC_RBSK
+# NDVI-SAVI_DC_RBSK.
+Estimación de la distribución mensual de NDVI-SAVI_RBSK_DCA y obtención de raster´s bianuales.
 # Desarrollo de código y obtención de información para su posterior análisis.
 
 ## Descripción 📋
