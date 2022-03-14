@@ -42,7 +42,7 @@ var zonas = ee.FeatureCollection (ZN.merge(ZS));
 //https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR?hl=en
 //----------------------------------------------------------------------------------------------------------------------------------------------/
 
-//Se crea la función cloudMaskL457 para enmascarar nubes, sombras y sombra de nubes, mediante los valores de pixel de la banda QA_PIXEL
+//Se crea la función cloudMaskL457 para enmascarar nubes y sombra de nubes, mediante los valores de pixel de la banda QA_PIXEL
 var cloudMaskC2L7 = function(image) {
   var cloud = (1 << 3)
   var cloudconfidence = (1 << 9)
