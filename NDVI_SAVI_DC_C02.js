@@ -58,7 +58,7 @@ var cloudMaskC2L7 = function(image) {
   var mask2 = image.mask().reduce(ee.Reducer.min());
   // Establezca los píxeles de la nube relacionados con la detección en 0 y la máscara retiene los datos cuya posición no es 0.
   return image.updateMask(cloud02.not()).updateMask(mask2);
-}; //96 % de confiabilidad en los datos
+}; 
 
 /*Para renombrar bandas de interés de la colección L7, y ser empleadas por su nombre..
 function renameETM(image) {
