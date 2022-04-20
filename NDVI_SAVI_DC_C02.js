@@ -45,7 +45,7 @@ var zonas = ee.FeatureCollection (ZN.merge(ZS));
 //Se crea la función cloudMaskL457 para enmascarar nubes y sombra de nubes, mediante los valores de pixel de la banda QA_PIXEL
 var cloudMaskC2L7 = function(image) {
   var cloud = (1 << 3)
-  var cloudconfidence = (1 << 9)
+  var cloudconfidence = (1 << 9) 
   var cloudShadow = (1 << 4)
   var qa = image.select('QA_PIXEL');//La banda QA_Pixel, es una banda de evaluación de la calidad de píxeles, generada a partir del algoritmo CFMASK para el procesamiento de eliminación de nubes. 
   //Esta puede generar una nueva imagen de banda única.
@@ -215,7 +215,7 @@ var T5 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2")
   .reduce(ee.Reducer.median())
   .clip(zonas);
 
-//====================================9.1. Extra: Información del periodo 2020-2020 del área de estudio.============================/
+//====================================9.1.Extra: Información del periodo 2020-2020 del área de estudio.============================/
 
 var T6 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") 
   .filterDate ('2020-01-01', '2020-12-31') 
@@ -361,12 +361,14 @@ var NDVI_C = NDVImultitemporal
           .where(NDVImultitemporal .gt(0.35).and(NDVImultitemporal .lte(0.65)), 4)// Vegetación de densidad media alta; y
           .where(NDVImultitemporal .gt(0.65).and(NDVImultitemporal .lte(0.90)),5); //Vegetación de alta densidad
 
-//=================================11.3. Detección de cambio bianual en el NDVI para ambas zonas (ZN-ZS) .==================================================/ 
+//=================================11.3. Detección de cambio bianual de diferencias en el NDVI para ambas zonas (ZN-ZS) .==================================================/ 
+//====================================== segun formula indicada por Muhsin, (2019) y Fassnacht et al., (2019). ====================================/
+//======================================https://samapriya.github.io/gee-py/projects/mathoperations/ ==============================================/
 
-var image_diffNDVI1 = NDVI_Bia01_C.subtract(NDVI_Bia02_C);
-var image_diffNDVI2 = NDVI_Bia02_C.subtract(NDVI_Bia03_C);
-var image_diffNDVI3 = NDVI_Bia03_C.subtract(NDVI_Bia04_C);
-var image_diffNDVI4 = NDVI_Bia04_C.subtract(NDVI_Bia05_C);
+var image_diffNDVI1 = NDVI_Bia02_C.subtract(NDVI_Bia01_C);
+var image_diffNDVI2 = NDVI_Bia03_C.subtract(NDVI_Bia02_C);
+var image_diffNDVI3 = NDVI_Bia04_C.subtract(NDVI_Bia03_C);
+var image_diffNDVI4 = NDVI_Bia05_C.subtract(NDVI_Bia04_C);
 
 //===============================================11.4. Reclasificación valores SAVI por Bianualidad.====================================/
 
@@ -422,10 +424,10 @@ var SAVI_C = SAVImultitemporal
 
 //=================================11.6. Detección de cambio bianual en el SAVI para ambas zonas (ZN-ZS).==================================================/ 
 
-var image_diffSAVI1 = SAVI_Bia01_C.subtract(SAVI_Bia02_C);
-var image_diffSAVI2 = SAVI_Bia02_C.subtract(SAVI_Bia03_C);
-var image_diffSAVI3 = SAVI_Bia03_C.subtract(SAVI_Bia04_C);
-var image_diffSAVI4 = SAVI_Bia04_C.subtract(SAVI_Bia05_C);
+var image_diffSAVI1 = SAVI_Bia02_C.subtract(SAVI_Bia01_C);
+var image_diffSAVI2 = SAVI_Bia03_C.subtract(SAVI_Bia02_C);
+var image_diffSAVI3 = SAVI_Bia04_C.subtract(SAVI_Bia03_C);
+var image_diffSAVI4 = SAVI_Bia05_C.subtract(SAVI_Bia04_C);
 
 //================================================12.Estadisticos descriptivos para NDVI y SAVI para cada zona (ZN-ZS) por bianualidades y para el periodo 2011-2020.=========================/
 
@@ -717,37 +719,37 @@ Export.image.toDrive({image: NDVI_Bia05_C,
   
 //===========================================16.1.4. Diferencia en la densidad de la cobertura de NDVI para ambas zonas de estudio.==============/ 
   
- //1.===============================================NDVI1-NDVI2.============/
+ //1.===============================================NDVI2-NDVI1.============/
  
  Export.image.toDrive({image: image_diffNDVI1,
-  description: 'Diff_NDVI1-NDVI2', 
+  description: 'Diff_NDVI2-NDVI1', 
   folder: 'GEE',
   scale: 30,
-  region: zonas,
+    region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-  //2.================================================NDVI2-NDVI3.=========/
+  //2.================================================NDVI3-NDVI2.=========/
   Export.image.toDrive({image: image_diffNDVI2,
-  description: 'Diff_NDVI2-NDVI3', 
+  description: 'Diff_NDVI3-NDVI2', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-   //3.===============================================NDVI3-NDVI4.============/
+   //3.===============================================NDVI4-NDVI3.============/
   Export.image.toDrive({image: image_diffNDVI3,
-  description: 'Diff_NDVI3-NDVI4', 
+  description: 'Diff_NDVI4-NDVI3', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-   //4.===============================================NDVI4-NDVI5.============/
+   //4.===============================================NDVI5-NDVI4.============/
   Export.image.toDrive({image: image_diffNDVI4,
-  description: 'Diff_NDVI4-NDVI5', 
+  description: 'Diff_NDVI5-NDVI4', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -782,7 +784,7 @@ Export.image.toDrive({image: SAVI_C,
 
 //1.================================2011-2012 ===============================/  
   Export.image.toDrive({image: SAVI_Bia01_C,
-  description: 'Bia01_SAVI01_C__2011-2012',
+  description: 'Bia01_SAVI01_C_2011-2012',
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -792,7 +794,7 @@ Export.image.toDrive({image: SAVI_C,
 //2.================================2013-2014============================/ 
  
 Export.image.toDrive({image: SAVI_Bia02_C,
-  description: 'Bia02_SAVI02_2013-2014', 
+  description: 'Bia02_SAVI02_C_2013-2014', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -802,7 +804,7 @@ Export.image.toDrive({image: SAVI_Bia02_C,
 //3.==================================2015-2016 ===========================/
 
 Export.image.toDrive({image:  SAVI_Bia03_C,
-  description: 'Bia03_SAVI03_2015-2016',
+  description: 'Bia03_SAVI03_C_2015-2016',
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -812,7 +814,7 @@ Export.image.toDrive({image:  SAVI_Bia03_C,
 //4.==================================2017-2018 =============================/ 
 
 Export.image.toDrive({image:  SAVI_Bia04_C,
-  description: 'Bia04_SAVI04_2017-2018', 
+  description: 'Bia04_SAVI04_C_2017-2018', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -822,7 +824,7 @@ Export.image.toDrive({image:  SAVI_Bia04_C,
 //5.=================================== 2019-2020 =============================/
 
 Export.image.toDrive({image:  SAVI_Bia05_C,
-  description: 'Bia05_SAVI05_2019-2020', 
+  description: 'Bia05_SAVI05_C_2019-2020', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -831,36 +833,36 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
 
 //===========================================16.2.3.Diferencia en la densidad de la cobertura de SAVI para ambas zonas de estudio.=============/ 
   
-  //1.===============================================SAVI1-SAVI2.============/
+  //1.===============================================SAVI2-SAVI1.============/
   Export.image.toDrive({image: image_diffSAVI1,
-  description: 'Diff_SAVI1-SAVI2', 
+  description: 'Diff_SAVI2-SAVI1', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-  //2.===============================================SAVI2-SAVI3.============/
+  //2.===============================================SAVI3-SAVI2.============/
   Export.image.toDrive({image: image_diffSAVI2,
-  description: 'Diff_SAVI2-SAVI3', 
+  description: 'Diff_SAVI3-SAVI2', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//3.===============================================SAVI3-SAVI4.============/
+//3.===============================================SAVI4-SAVI3.============/
   Export.image.toDrive({image: image_diffSAVI3,
-  description: 'Diff_SAVI3-SAVI4', 
+  description: 'Diff_SAVI4-SAVI3', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//4.===============================================SAVI4-SAVI5.============/
+//4.===============================================SAVI5-SAVI4.============/
 Export.image.toDrive({image: image_diffSAVI4,
-  description: 'Diff_SAVI4-SAVI5', 
+  description: 'Diff_SAVI5-SAVI4', 
   folder: 'GEE',
   scale: 30,
   region: zonas,
@@ -888,22 +890,21 @@ Export.image.toDrive({image: T6.select('SR_B4_median', 'SR_B3_median', 'SR_B2_me
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//======================================================17. Visualizar al mapa combinación de color verdadero B (3,2,1) y vegetación B (4,3,2).=========================/ ========================/
+//======================================================17. Visualizar al mapa combinación de color verdadero B(3,2,1) y vegetación B (4,3,2)..=========================/ ========================/
 
-//1.=========================================================================/
+//1.================================================================/
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
   min: 0.0,
   max: 0.2,
 }; 
 
-//2.=======================================================================/
+//2.===============================================================/
 var veg_vis = {
   bands: ['SR_B4_median', 'SR_B3_median', 'SR_B2_median'],
   min: 0.0,
   max: 0.2,
 }; 
-
 //===== ==========================18. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
 //=================================adaptado para este estudio.===================================================================/
 
@@ -932,4 +933,6 @@ Map.addLayer (ZS, {color:'cyan'}, 'ZS');
 
 //======================================20.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
+
+
 
