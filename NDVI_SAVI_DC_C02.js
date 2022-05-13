@@ -455,7 +455,7 @@ var reducers = reducer1.combine({reducer2: ee.Reducer.median(), sharedInputs: tr
                        .combine({reducer2: ee.Reducer.max(), sharedInputs: true})
                        .combine({reducer2: ee.Reducer.min(), sharedInputs: true});
                                
-//1.=========================================Estadisticos descriptivos para el periodo 2011-2020                               
+//1.=========================================Estadisticos descriptivos para el periodo 2011-2020.==============================/                               
                                 
 var results_01 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZN,
@@ -466,7 +466,7 @@ var results_01 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reduce
 
 print ('Estadisticos_NDVI_ZN', results_01);
 
-//3.=========================================================/
+//3.=============================================================================================================/
 
 var results_02 =SAVImultitemporal.select('SAVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZN,
@@ -476,7 +476,7 @@ var results_02 =SAVImultitemporal.select('SAVI.*').reduceRegion({reducer: reduce
 
 print ('Estadisticos_SAVI_ZN', results_02);
 
-//4.==========================================================/
+//4.============================================================================================================/
 var results_03 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZS,
                                 scale: 30,
@@ -484,7 +484,8 @@ var results_03 =NDVImultitemporal.select('NDVI.*').reduceRegion({reducer: reduce
 
 print ('Estadisticos_NDVI_ZS', results_03);
 
-//5.===========================================================/
+//5.============================================================================================================/
+
 var results_04 =SAVImultitemporal.select('SAVI.*').reduceRegion({reducer: reducers,
                                 geometry: ZS,
                                 scale: 30,
@@ -556,7 +557,7 @@ var histograma02 = ui.Chart.image.histogram(band01, ZS, 30)
 // Mostrar histograma en la consola.
 print(histograma02);
 
-//3.============================HIstograma de frecuencias SAVI_ZN.==============/
+//3.============================HIstograma de frecuencias SAVI_ZN.========================/
 var opciones = {
   //Título
   title: 'Histograma de Valores SAVI-ZN',
@@ -583,7 +584,7 @@ var histograma03 = ui.Chart.image.histogram(band02, ZN, 30)
  // Mostrar histograma en la consola.
 print(histograma03);
 
-//4.============================HIstograma de frecuencias SAVI_ZS.==============/
+//4.============================HIstograma de frecuencias SAVI_ZS.=========================/
 var opciones = {
   //Título
   title: 'Histograma de Valores SAVI-ZS',
@@ -612,7 +613,8 @@ print(histograma04);
 
 //==================================15.Creación de gráfico temporal NDVI-SAVI, Zona Norte y Sur individual.===============================/
 
-//1.===========================================================================================/
+//1.=========================================================================================================/
+
 var chart01 = ui.Chart.image.series({
   imageCollection:ndvim.select('NDVI'),
   region: ZN,
@@ -625,7 +627,8 @@ var chart01 = ui.Chart.image.series({
             titleTextStyle: {italic: false, bold: true}
           }});
   
- //2.=============================================================================================/
+ //2.===========================================================================================================/
+
  var chart02 = ui.Chart.image.series({
   imageCollection:  ndvim.select('NDVI'),
   region: ZS,
@@ -637,7 +640,9 @@ var chart01 = ui.Chart.image.series({
             title: 'Valores_NDVI',
             titleTextStyle: {italic: false, bold: true}
           }});
- //3.================================================================================================/
+
+ //3.============================================================================================================/
+
  var chart03 = ui.Chart.image.series({
   imageCollection:  savim.select('SAVI'),
   region: ZN,
@@ -649,7 +654,9 @@ var chart01 = ui.Chart.image.series({
             title: 'Valores_SAVI',
             titleTextStyle: {italic: false, bold: true}
           }});
-//4.==================================================================================================/
+
+//4.=================================================================================================================/
+
 var chart04 = ui.Chart.image.series({
   imageCollection:  savim.select('SAVI'),
   region: ZS,
@@ -674,6 +681,7 @@ print(chart04);
 // =============================16.1. NDVI Total a Google Drive.================================================/
 
 //===========================16.1.2. Resultados cateorizados NDVI Temporalidad total (2011-2020).============================/
+
 Export.image.toDrive({image: NDVI_C,
   description: 'Total_NDVI_C_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -686,6 +694,7 @@ Export.image.toDrive({image: NDVI_C,
 //===========================16.1.3. Datos Bianuales y para el periodo 2011-2020 de NDVI en las zonas de estudio (ZN-ZS)======================/
 
 //1. ==========================================2011-2012.===========================================/
+
 Export.image.toDrive({image: NDVI_Bia01_C,
   description: 'Bia01_NDVI01_C_2011-2012',
   folder: 'GEE',
@@ -773,9 +782,62 @@ Export.image.toDrive({image: NDVI_Bia05_C,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-  //--------------------------------------------------------------------------------------------------------/
+  //----------------------------------------------------------------------------------------------------------------------------------------/
 
-//================================16.1.5. NDVI sin reclasificar.===============================/
+//================================16.1.5 Datos Bianuales sin Reclasificación NDVI.====================/
+
+//1. ==========================================2011-2012.===========================================/
+
+Export.image.toDrive({image: NDVI1,
+  description: 'Bia01_NDVI01_2011-2012',
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+//2.=========================================== 2013-2014.===========================================/
+
+Export.image.toDrive({image: NDVI2,
+  description: 'Bia02_NDVI02_2013-2014',
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//3.============================================ 2015-2016.===========================================/
+  
+Export.image.toDrive({image: NDVI3,
+  description: 'Bia03_NDVI03_2015-2016', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});  
+  
+//4.============================================2017-2018.=============================================/ 
+
+Export.image.toDrive({image: NDVI4,
+  description: 'Bia04_NDVI04_2017-2018', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});  
+
+//5.=======================================2019-2020.=================================================/
+  
+Export.image.toDrive({image: NDVI5,
+  description: 'Bia05_NDVI05_2019-2020', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});  
+  
+//================================16.1.6. NDVI sin reclasificar.===============================/
+
 Export.image.toDrive({image: NDVImultitemporal,
   description: 'Total_NDVI_S-R_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -784,7 +846,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
-//================================16.1.6. Diferencia sin Reclasificación.========================/
+//================================16.1.7. Diferencia sin Reclasificación NDVI.========================/
   
  //1.===============================================NDVI2-NDVI1.============/
  
@@ -797,6 +859,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   maxPixels: 1e13});
   
   //2.================================================NDVI3-NDVI2.=========/
+
   Export.image.toDrive({image: image_NDVI2Diff,
   description: 'NDVI3-NDVI2_Diff', 
   folder: 'GEE',
@@ -806,6 +869,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   maxPixels: 1e13});
   
    //3.===============================================NDVI4-NDVI3.============/
+
   Export.image.toDrive({image: image_NDVI3Diff,
   description: 'NDVI4-NDVI3_Diff', 
   folder: 'GEE',
@@ -815,6 +879,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   maxPixels: 1e13});
   
    //4.===============================================NDVI5-NDVI4.============/
+
   Export.image.toDrive({image: image_NDVI4Diff,
   description: 'NDVI5-NDVI4_Diff', 
   folder: 'GEE',
@@ -823,7 +888,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
     
-//************************************************************************************************/
+//**********************************************************************************************************************************************/
 
 //=================================16.2. SAVI Total a Google Drive.=============================/
 
@@ -839,7 +904,8 @@ Export.image.toDrive({image: SAVI_C,
   
  //================================16.2.2. Datos Bianuales y del periodo 2011-2020 de SAVI en las zonas de estudio (ZN-ZS)=============================/
 
-//1.================================2011-2012 ===============================/  
+//1.================================2011-2012 ===============================/ 
+
   Export.image.toDrive({image: SAVI_Bia01_C,
   description: 'Bia01_SAVI01_C_2011-2012',
   folder: 'GEE',
@@ -891,6 +957,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
 //===========================================16.2.3.Diferencia en la densidad de la cobertura de SAVI para ambas zonas de estudio.=============/ 
   
   //1.===============================================SAVI2-SAVI1.============/
+
   Export.image.toDrive({image: image_diffSAVI1,
   description: 'Diff_SAVI2-SAVI1', 
   folder: 'GEE',
@@ -900,6 +967,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
   maxPixels: 1e13});
   
   //2.===============================================SAVI3-SAVI2.============/
+
   Export.image.toDrive({image: image_diffSAVI2,
   description: 'Diff_SAVI3-SAVI2', 
   folder: 'GEE',
@@ -909,6 +977,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
   maxPixels: 1e13});
 
 //3.===============================================SAVI4-SAVI3.============/
+
   Export.image.toDrive({image: image_diffSAVI3,
   description: 'Diff_SAVI4-SAVI3', 
   folder: 'GEE',
@@ -918,6 +987,7 @@ Export.image.toDrive({image:  SAVI_Bia05_C,
   maxPixels: 1e13});
 
 //4.===============================================SAVI5-SAVI4.============/
+
 Export.image.toDrive({image: image_diffSAVI4,
   description: 'Diff_SAVI5-SAVI4', 
   folder: 'GEE',
@@ -929,6 +999,7 @@ Export.image.toDrive({image: image_diffSAVI4,
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/
 
 //==================== ===========16.2.4. SAVI sin reclasificar.=============================================================/
+
 Export.image.toDrive({image: SAVImultitemporal,
   description: 'Total_SAVI_S-R_'+StartYear+'_to_'+EndYear,
   folder: 'GEE',
@@ -937,9 +1008,62 @@ Export.image.toDrive({image: SAVImultitemporal,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
-//=================================16.2.5. Diferencia sin Reclasificar
+//================================16.2.5 Datos Bianuales sin Reclasificación SAVI.====================/
+
+//1.================================2011-2012 ===============================/  
+
+  Export.image.toDrive({image: SAVI1,
+  description: 'Bia01_SAVI01_2011-2012',
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//2.================================2013-2014============================/ 
+ 
+Export.image.toDrive({image: SAVI2,
+  description: 'Bia02_SAVI02_2013-2014', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+ maxPixels: 1e13});  
+  
+//3.==================================2015-2016 ===========================/
+
+Export.image.toDrive({image:  SAVI3,
+  description: 'Bia03_SAVI03_2015-2016',
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+     
+//4.==================================2017-2018 =============================/ 
+
+Export.image.toDrive({image:  SAVI4,
+  description: 'Bia04_SAVI04_2017-2018', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+     
+//5.=================================== 2019-2020 =============================/
+
+Export.image.toDrive({image:  SAVI5,
+  description: 'Bia05_SAVI05_2019-2020', 
+  folder: 'GEE',
+  scale: 30,
+  region: zonas,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//=================================16.2.6. Diferencia sin Reclasificar SAVI.==================/
 
 //1.===============================================SAVI2-SAVI1.============/
+
   Export.image.toDrive({image: image_SAVI1Diff,
   description: 'SAVI2-SAVI1_Diff', 
   folder: 'GEE',
@@ -949,6 +1073,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   maxPixels: 1e13});
   
   //2.===============================================SAVI3-SAVI2.============/
+
   Export.image.toDrive({image: image_SAVI2Diff,
   description: 'SAVI3-SAVI2_Diff', 
   folder: 'GEE',
@@ -958,6 +1083,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   maxPixels: 1e13});
 
 //3.===============================================SAVI4-SAVI3.============/
+
   Export.image.toDrive({image: image_SAVI3Diff,
   description: 'SAVI4-SAVI3_Diff', 
   folder: 'GEE',
@@ -967,6 +1093,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   maxPixels: 1e13});
 
 //4.===============================================SAVI5-SAVI4.============/
+
 Export.image.toDrive({image: image_SAVI4Diff,
   description: 'SAVI5-SAVI4_Diff', 
   folder: 'GEE',
@@ -988,6 +1115,7 @@ Export.image.toDrive({image: T6.select('SR_B4_median', 'SR_B3_median', 'SR_B2_me
 //======================================================17. Visualizar al mapa combinación de color verdadero B(3,2,1) y vegetación B (4,3,2)..=========================/ ========================/
 
 //1.================================================================/
+
 var rgb_vis = {
   bands: ['SR_B3', 'SR_B2', 'SR_B1'],
   min: 0.0,
@@ -995,11 +1123,13 @@ var rgb_vis = {
 }; 
 
 //2.===============================================================/
+
 var veg_vis = {
   bands: ['SR_B4_median', 'SR_B3_median', 'SR_B2_median'],
   min: 0.0,
   max: 0.2,
 }; 
+
 //===== ==========================18. Añadir capas de categorízación de los valores de NDVI por año,=========================================================/
 //=================================adaptado para este estudio.===================================================================/
 
@@ -1028,7 +1158,3 @@ Map.addLayer (ZS, {color:'cyan'}, 'ZS');
 
 //======================================20.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
-
-
-
-
