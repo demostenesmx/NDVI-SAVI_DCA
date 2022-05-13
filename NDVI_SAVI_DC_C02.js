@@ -4,6 +4,7 @@
 
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
+//Este código se encuentra publicado en el repositorio GitHub, link de acceso: https://github.com/demostenesmx/NDVI-SAVI_DCA.git
 //https://courses.spatialthoughts.com/end-to-end-gee.html
 
 //===================================1.Periodo de estudio 2011-2020 (10 años).================================================================/
@@ -363,12 +364,20 @@ var NDVI_C = NDVImultitemporal
 
 //=================================11.3. Detección de cambio bianual de diferencias en el NDVI para ambas zonas (ZN-ZS) .==================================================/ 
 //====================================== segun formula indicada por Muhsin, (2019) y Fassnacht et al., (2019). ====================================/
-//======================================https://samapriya.github.io/gee-py/projects/mathoperations/ ==============================================/
+
+//=====================1. Con la Reclasificación Propuesta.===================/
 
 var image_diffNDVI1 = NDVI_Bia02_C.subtract(NDVI_Bia01_C);
 var image_diffNDVI2 = NDVI_Bia03_C.subtract(NDVI_Bia02_C);
 var image_diffNDVI3 = NDVI_Bia04_C.subtract(NDVI_Bia03_C);
 var image_diffNDVI4 = NDVI_Bia05_C.subtract(NDVI_Bia04_C);
+
+//=====================2. Sin la Reclasificación Propuesta.==================/
+
+var image_NDVI1Diff = NDVI2.subtract(NDVI1);
+var image_NDVI2Diff = NDVI3.subtract(NDVI2);
+var image_NDVI3Diff = NDVI4.subtract(NDVI3);
+var image_NDVI4Diff = NDVI5.subtract(NDVI4);
 
 //===============================================11.4. Reclasificación valores SAVI por Bianualidad.====================================/
 
@@ -424,10 +433,19 @@ var SAVI_C = SAVImultitemporal
 
 //=================================11.6. Detección de cambio bianual en el SAVI para ambas zonas (ZN-ZS).==================================================/ 
 
+//=====================1. Con la Reclasificación Propuesta.======================/
+
 var image_diffSAVI1 = SAVI_Bia02_C.subtract(SAVI_Bia01_C);
 var image_diffSAVI2 = SAVI_Bia03_C.subtract(SAVI_Bia02_C);
 var image_diffSAVI3 = SAVI_Bia04_C.subtract(SAVI_Bia03_C);
 var image_diffSAVI4 = SAVI_Bia05_C.subtract(SAVI_Bia04_C);
+
+//=====================2. Sin la Reclasificación Propuesta.=====================/
+
+var image_SAVI1Diff = SAVI2.subtract(SAVI1);
+var image_SAVI2Diff = SAVI3.subtract(SAVI2);
+var image_SAVI3Diff = SAVI4.subtract(SAVI3);
+var image_SAVI4Diff = SAVI5.subtract(SAVI4);
 
 //================================================12.Estadisticos descriptivos para NDVI y SAVI para cada zona (ZN-ZS) por bianualidades y para el periodo 2011-2020.=========================/
 
@@ -766,6 +784,46 @@ Export.image.toDrive({image: NDVImultitemporal,
   region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
+  
+//================================16.1.6. Diferencia sin Reclasificación.========================/
+  
+ //1.===============================================NDVI2-NDVI1.============/
+ 
+ Export.image.toDrive({image: image_NDVI1Diff,
+  description: 'NDVI2-NDVI1_Diff', 
+  folder: 'GEE',
+  scale: 30,
+    region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+  //2.================================================NDVI3-NDVI2.=========/
+  Export.image.toDrive({image: image_NDVI2Diff,
+  description: 'NDVI3-NDVI2_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+   //3.===============================================NDVI4-NDVI3.============/
+  Export.image.toDrive({image: image_NDVI3Diff,
+  description: 'NDVI4-NDVI3_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+   //4.===============================================NDVI5-NDVI4.============/
+  Export.image.toDrive({image: image_NDVI4Diff,
+  description: 'NDVI5-NDVI4_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+    
 //************************************************************************************************/
 
 //=================================16.2. SAVI Total a Google Drive.=============================/
@@ -880,6 +938,44 @@ Export.image.toDrive({image: SAVImultitemporal,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
+//=================================16.2.5. Diferencia sin Reclasificar
+
+//1.===============================================SAVI2-SAVI1.============/
+  Export.image.toDrive({image: image_SAVI1Diff,
+  description: 'SAVI2-SAVI1_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+  
+  //2.===============================================SAVI3-SAVI2.============/
+  Export.image.toDrive({image: image_SAVI2Diff,
+  description: 'SAVI3-SAVI2_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//3.===============================================SAVI4-SAVI3.============/
+  Export.image.toDrive({image: image_SAVI3Diff,
+  description: 'SAVI4-SAVI3_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
+//4.===============================================SAVI5-SAVI4.============/
+Export.image.toDrive({image: image_SAVI4Diff,
+  description: 'SAVI5-SAVI4_Diff', 
+  folder: 'GEE',
+  scale: 30,
+  region: ZS,
+  crs: 'EPSG:32616',
+  maxPixels: 1e13});
+
 //Extra.=====================================2020-2020==============================/
 
 Export.image.toDrive({image: T6.select('SR_B4_median', 'SR_B3_median', 'SR_B2_median'),
@@ -933,6 +1029,7 @@ Map.addLayer (ZS, {color:'cyan'}, 'ZS');
 
 //======================================20.Centrar el mapa en el archivo vectorial de la RBSK (Perimetro).==================================================/
 Map.centerObject (Sian_Per, 10);
+
 
 
 
