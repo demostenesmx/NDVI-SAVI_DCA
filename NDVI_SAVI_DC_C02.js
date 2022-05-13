@@ -4,7 +4,6 @@
 
 //Esta obra se ecuentra bajo los términos de la licencia GNU General Public License v3.0.======================================================/
 // Para obtener una copia, consulte https://choosealicense.com/licenses/gpl-3.0/ =============================================================/
-//Este código se encuentra publicado en el repositorio GitHub, link de acceso: https://github.com/demostenesmx/NDVI-SAVI_DCA.git
 //https://courses.spatialthoughts.com/end-to-end-gee.html
 
 //===================================1.Periodo de estudio 2011-2020 (10 años).================================================================/
@@ -793,7 +792,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   description: 'NDVI2-NDVI1_Diff', 
   folder: 'GEE',
   scale: 30,
-    region: ZS,
+    region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
@@ -802,7 +801,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   description: 'NDVI3-NDVI2_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
@@ -811,7 +810,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   description: 'NDVI4-NDVI3_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
@@ -820,7 +819,7 @@ Export.image.toDrive({image: NDVImultitemporal,
   description: 'NDVI5-NDVI4_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
     
@@ -945,7 +944,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   description: 'SAVI2-SAVI1_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
   
@@ -954,7 +953,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   description: 'SAVI3-SAVI2_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
@@ -963,7 +962,7 @@ Export.image.toDrive({image: SAVImultitemporal,
   description: 'SAVI4-SAVI3_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
@@ -972,7 +971,7 @@ Export.image.toDrive({image: image_SAVI4Diff,
   description: 'SAVI5-SAVI4_Diff', 
   folder: 'GEE',
   scale: 30,
-  region: ZS,
+  region: zonas,
   crs: 'EPSG:32616',
   maxPixels: 1e13});
 
