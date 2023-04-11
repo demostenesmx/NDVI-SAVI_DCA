@@ -49,14 +49,14 @@ var cloudMaskC2L7 = function(image) {
   var cloudShadow = (1 << 4)
   var qa = image.select('QA_PIXEL');//La banda QA_Pixel, es una banda de evaluación de la calidad de píxeles, generada a partir del algoritmo CFMASK para el procesamiento de eliminación de nubes. 
   //Esta puede generar una nueva imagen de banda única.
-//// La capa de nubes se representa como el tercer lugar, la confianza de la capa de nubes es 8-9 y la sombra de las nubes es el cuarto lugar
-////// Seleccione los píxeles que tienen nubes y la confianza de las nubes es media y están cubiertos por sombras de nubes.
+//// La capa de nubes se representa como el bit-3, la confianza de la capa de nubes esta en los bits 8-9 y la sombra de las nubes es el bit-4
+////// Consulta la seleccion de los píxeles que tienen nubes y la confianza de las nubes es media y están cubiertos por sombras de nubes.
   var cloud02 = qa.bitwiseAnd(cloud)
     .and(qa.bitwiseAnd(cloudconfidence))
     .or(qa.bitwiseAnd(cloudShadow));
   //Elimina los píxeles de borde que no aparecen en todas las bandas
   var mask2 = image.mask().reduce(ee.Reducer.min());
-  // Establezca los píxeles de la nube relacionados con la detección en 0 y la máscara retiene los datos cuya posición no es 0.
+  // Establece los píxeles según las indicaciones de la variable cloud02 y actualiza la imagen según variable mask2.
   return image.updateMask(cloud02.not()).updateMask(mask2);
 }; 
 
@@ -100,7 +100,7 @@ var colFilter = ee.Filter.and(
 // https://developers.google.com/earth-engine/tutorials/tutorial_api_05 (la mediana como reductor temporal en imagenes).
 
 //Dato importante: Cuando se reduce una colección de imágenes utilizando el reductor de mediana, el valor compuesto es la mediana en cada banda, a lo largo del tiempo.
-//Aunado a lo anterior, en la ejecución del presente código se hace uso de valores de la mediana.
+//En la ejecución del presente código se hace uso como reductor la mediana.
 
 var L7 = ee.ImageCollection("LANDSAT/LE07/C02/T1_L2") //Del catalago de datos de GEE
     .filter(colFilter).map(computeIVM).map(cloudMaskC2L7).map(scale01);//.map(renameETM)
