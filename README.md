@@ -43,3 +43,6 @@ Las capas raster de exportación se ubicaran dentro de la pestaña Tasks, para s
 La manipulación de la información contenida en los rasaters puede realizarse, a traves, del sistema de información geografica de su preferencia. Para el presente caso de estudio se utilizó el software de acceso libre QGIS.
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/QGis.JPG)
+
+Citar: Gayosso-Soto, E.; Cohuo, S.; Sánchez-Sánchez, J.A.; Villegas-Sánchez, C.A.; Castro-Pérez, J.M.; Cutz-Pool, L.Q.; Macario-González, L. Coastal Dune Vegetation Dynamism and Anthropogenic-Induced Transitions in the Mexican Caribbean during the Last Decade. Plants 2024, 13, 1734. https://doi.org/10.3390/plants13131734
+
