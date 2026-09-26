@@ -44,5 +44,6 @@ La manipulación de la información contenida en los rasaters puede realizarse, 
 
 ![alt text](https://github.com/demostenesmx/NDVI-SAVI_DCA/blob/main/QGis.JPG)
 
-Citar: Gayosso-Soto, E.; Cohuo, S.; Sánchez-Sánchez, J.A.; Villegas-Sánchez, C.A.; Castro-Pérez, J.M.; Cutz-Pool, L.Q.; Macario-González, L. Coastal Dune Vegetation Dynamism and Anthropogenic-Induced Transitions in the Mexican Caribbean during the Last Decade. Plants 2024, 13, 1734. https://doi.org/10.3390/plants13131734
+Cita: Gayosso-Soto, E.; Cohuo, S.; Sánchez-Sánchez, J.A.; Villegas-Sánchez, C.A.; Castro-Pérez, J.M.; Cutz-Pool, L.Q.; Macario-González, L. Coastal Dune Vegetation Dynamism and Anthropogenic-Induced Transitions in the Mexican Caribbean during the Last Decade. Plants 2024, 13, 1734. https://doi.org/10.3390/plants13131734
 
+Gayosso-Soto, E., Cohuo, S., Sánchez-Sánchez, J. A., Macario-González, L., Villegas-Sánchez, C. A., Medina-Quej, A., Tello-Chan, J. M., Cutz-Pool, L. Q., & Castro-Pérez, J. M. (2024). The Environmental Legal Framework of Mexican Caribbean Dunes: A Retrospective Case Study of Vegetation and Coastal Dune Loss in the Sian Ka’an Biosphere Reserve. Land, 13(9), 1533. https://doi.org/10.3390/land13091533
